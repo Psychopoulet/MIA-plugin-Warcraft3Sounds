@@ -7,10 +7,6 @@
 			fs = require('simplefs'),
 			SimplePluginsManager = require('simplepluginsmanager');
 
-// private
-
-	var m_sLocalFile = path.join(__dirname, 'backup.json');
-
 // module
 
 module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
@@ -21,6 +17,8 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
  
 		this.directory = __dirname;
 		this.loadDataFromPackageFile();
+		
+		this.backupFilePath = path.join(__dirname, 'backup.json');
  
 	}
 
