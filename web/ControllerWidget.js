@@ -4,260 +4,173 @@ app.controller('ControllerWarcraftSounds', ['$scope', '$popup', function($scope,
 
 	// attributes
 
-		$scope.races = [];
-			$scope.characters = [];
-				$scope.actions = [];
-			$scope.musics = [];
-			$scope.warnings = [];
+		// private
 
-		$scope.children = [];
-		$scope.selectedchild = false;
-
-	// methods
+			var tabActionsTypes = [];
 
 		// public
 
-			// selects
+			$scope.races = $scope.characters = $scope.actions = $scope.musics = $scope.warnings = $scope.childs = [];
+			$scope.selectedrace = $scope.selectedmusic = $scope.selectedwarning = $scope.selectedcharacter = null;
 
-				$scope.emptyRace = function() {
+	// methods
 
-					$scope.selectedrace = false;
+		// selects
 
-						$scope.selectedmusic = false;
-						$scope.selectedwarning = false;
-						$scope.selectedcharacter = false;
+			$scope.selectRace = function(race) {
 
-					$scope.characters = [];
-						$scope.actions = [];
-					$scope.musics = [];
-					$scope.warnings = [];
+				if (race) {
 
-				};
+					$scope.selectedrace = race;
 
-				$scope.selectRace = function(p_stRace) {
+					socket.emit('plugin.warcraft3sounds.characters.get', { race : race });
+					socket.emit('plugin.warcraft3sounds.musics.get', { race : race });
+					socket.emit('plugin.warcraft3sounds.warnings.get', { race : race });
 
-					$scope.emptyRace();
+				}
+				else {
+					$scope.characters = $scope.actions = $scope.musics = $scope.warnings = [];
+					$scope.selectedrace = $scope.selectedmusic = $scope.selectedwarning = $scope.selectedcharacter = null;
+				}
 
-					if (p_stRace && p_stRace.code) {
+			};
 
-						$scope.selectedrace = p_stRace;
+			$scope.selectCharacter = function(race, character) {
 
-						$scope.races.forEach(function(race) {
-								
-							if (race.code === p_stRace.code) {
-
-								if (race.characters && 0 < race.characters.length) {
-									$scope.characters = race.characters;
-								}
-								else {
-									socket.emit('web.warcraftsounds.characters.get', { race : p_stRace });
-								}
-
-								if (race.musics && 0 < race.musics.length) {
-									$scope.musics = race.musics;
-								}
-								else {
-									socket.emit('web.warcraftsounds.musics.get', { race : p_stRace });
-								}
-
-								if (race.warnings && 0 < race.warnings.length) {
-									$scope.warnings = race.warnings;
-								}
-								else {
-									socket.emit('web.warcraftsounds.warnings.get', { race : p_stRace });
-								}
-
-							}
-							
-						});
-						
-					}
-
-				};
-
-				$scope.emptyCharacter = function() {
-					$scope.selectedcharacter = false;
+				if (race && character) {
+					$scope.selectedcharacter = character;
+					socket.emit('plugin.warcraft3sounds.actions.get', { race : race, character : character });
+				}
+				else {
+					$scope.selectedcharacter = null;
 					$scope.actions = [];
-				};
+				}
 
-				$scope.selectCharacter = function(p_stRace, p_stCharacter) {
+			};
 
-					$scope.emptyCharacter();
+		// previews
 
-					if (p_stRace && p_stRace.code && p_stCharacter && p_stCharacter.code) {
+			$scope.previewMusic = function(race, music) {
 
-						$scope.selectedcharacter = p_stCharacter;
+                $popup.sound({
+                	sources: [ music.url ],
+                	title: race.name + ' - ' + music.name
+                });
 
-						$scope.races.forEach(function(race) {
-								
-							if (race.code === p_stRace.code) {
+			};
+			$scope.previewWarning = function(race, warning) {
 
-								race.characters.forEach(function(character) {
+                $popup.sound({
+                	sources: [ warning.url ],
+                	title: race.name + ' - ' + warning.name
+                });
 
-									if (character.code === p_stCharacter.code) {
+			};
+            $scope.previewAction = function(race, character, action) {
+            	
+                $popup.sound({
+                	sources: [ action.url ],
+                	title: race.name + '/' + character.name + ' - ' + action.name
+                });
 
-										if (character.actions && 0 < character.actions.length) {
-											$scope.actions = character.actions;
-										}
-										else {
-											
-											socket.emit('web.warcraftsounds.actions.get', {
-												race : p_stRace,
-												character : p_stCharacter
-											});
+            };
 
-										}
+		// plays
 
-									}
+			$scope.playMusicOnChild = function(child, music) {
 
-								});
+				socket.emit('plugin.warcraft3sounds.music.play', {
+					child : child, music : music
+				});
 
-							}
-							
-						});
-						
+			};
+			$scope.playWarningOnChild = function(child, warning) {
+
+				socket.emit('plugin.warcraft3sounds.warning.play', {
+                    child : child, warning : warning
+				});
+
+			};
+            $scope.playActionOnChild = function(child, action) {
+
+                socket.emit('plugin.warcraft3sounds.action.play', {
+                    child : child, action : action
+                });
+
+            };
+
+		// actions
+
+			$scope.createSound = function (child, sound) {
+
+				for (var i = 0; i < tabActionsTypes.length; ++i) {
+
+					if (tabActionsTypes[i].command == 'media.sound.play') {
+						$actions.add(sound.name, child, tabActionsTypes[i], sound);
+						break;
 					}
 
-				};
+				}
 
-			// previews
-
-				$scope.previewMusic = function(p_stRace, p_stMusic) {
-
-                    $popup.sound({
-                    	sources: [ p_stMusic.url ],
-                    	title: p_stRace.name + ' - ' + p_stMusic.name
-                    });
-
-				};
-				$scope.previewWarning = function(p_stRace, p_stWarning) {
-
-                    $popup.sound({
-                    	sources: [ p_stWarning.url ],
-                    	title: p_stRace.name + ' - ' + p_stWarning.name
-                    });
-
-				};
-                $scope.previewAction = function(p_stRace, p_stCharacter, p_stAction) {
-                	
-                    $popup.sound({
-                    	sources: [ p_stAction.url ],
-                    	title: p_stRace.name + '/' + p_stCharacter.name + ' - ' + p_stAction.name
-                    });
-
-                };
-
-			// plays
-
-				$scope.playMusicOnChild = function(p_stMusic, p_stChild) {
-
-					socket.emit('web.warcraftsounds.music.play', {
-						child : p_stChild, music : p_stMusic
-					});
-
-				};
-				$scope.playWarningOnChild = function(p_stWarning, p_stChild) {
-
-					socket.emit('web.warcraftsounds.warning.play', {
-                        child : p_stChild, warning : p_stWarning
-					});
-
-				};
-                $scope.playActionOnChild = function(p_stAction, p_stChild) {
-
-                    socket.emit('web.warcraftsounds.action.play', {
-                        child : p_stChild, action : p_stAction
-                    });
-
-                };
+			};
 
 	// constructor
 
 		// events
 
-		    socket.on('childs', function (childs) {
+			// actionstypes
 
-				$scope.children = childs;
-				$scope.selectedchild = false;
+			socket.on('actionstypes', function(actionstypes) {
+				tabActionsTypes = actionstypes;
+				$scope.$apply();
+			})
+
+			// childs
+
+			.on('childs', function (childs) {
+				
+				$scope.childs = [];
+				angular.forEach(childs, function(child) {
+
+					if (child.connected && 'ACCEPTED' == child.status.code) {
+						$scope.childs.push(child);
+					}
+
+				});
+				
+				$scope.selectedchild = (1 == $scope.childs.length) ? $scope.childs[0] : null;
 				$scope.$apply();
 
 		    });
 	
 			// sockets
 
-				socket.on('web.warcraftsounds.races.get', function (p_tabData) {
-
-					$scope.races = p_tabData;
-
-					$scope.races = p_tabData;
+				socket.on('plugin.warcraft3sounds.races.get', function (races) {
+					$scope.races = races;
+					$scope.selectRace((1 == $scope.races.length) ? $scope.races[0] : null);
 					$scope.$apply();
-
 				})
-				.on('web.warcraftsounds.characters.get', function (p_stData) {
-
-					$scope.races.forEach(function(race, key) {
-							
-						if (race.code === p_stData.race.code) {
-							$scope.races[key].characters = p_stData.characters;
-						}
-						
-					});
-					
-					$scope.characters = p_stData.characters;
+				.on('plugin.warcraft3sounds.characters.get', function (characters) {
+					$scope.characters = characters;
+					$scope.selectCharacter($scope.selectedrace, (1 == $scope.characters.length) ? $scope.characters[0] : null);
 					$scope.$apply();
-
 				})
-					.on('web.warcraftsounds.actions.get', function (p_stData) {
-
-						$scope.races.forEach(function(race, racekey) {
-							
-							if (race.code === p_stData.race.code) {
-
-								race.characters.forEach(function(character, characterkey) {
-									
-									if (character.code === p_stData.character.code) {
-										$scope.races[racekey].characters[characterkey].actions = p_stData.actions;
-									}
-									
-								});
-
-							}
-							
-						});
-					
-						$scope.actions = p_stData.actions;
+					.on('plugin.warcraft3sounds.actions.get', function (actions) {
+						$scope.actions = actions;
+						$scope.selectedaction = (1 == $scope.actions.length) ? $scope.actions[0] : null;
 						$scope.$apply();
-
 					})
-				.on('web.warcraftsounds.musics.get', function (p_stData) {
-
-					$scope.races.forEach(function(race, key) {
-							
-						if (race.code === p_stData.race.code) {
-							$scope.races[key].musics = p_stData.musics;
-						}
-						
-					});
-					
-					$scope.musics = p_stData.musics;
+				.on('plugin.warcraft3sounds.musics.get', function (musics) {
+					$scope.musics = musics;
+					$scope.selectedmusic = (1 == $scope.musics.length) ? $scope.musics[0] : null;
 					$scope.$apply();
-
 				})
-				.on('web.warcraftsounds.warnings.get', function (p_stData) {
-
-					$scope.races.forEach(function(race, key) {
-							
-						if (race.code === p_stData.race.code) {
-							$scope.races[key].warnings = p_stData.warnings;
-						}
-						
-					});
-					
-					$scope.warnings = p_stData.warnings;
+				.on('plugin.warcraft3sounds.warnings.get', function (warnings) {
+					$scope.warnings = warnings;
+					$scope.selectedmusic = (1 == $scope.warnings.length) ? $scope.warnings[0] : null;
 					$scope.$apply();
-
 				})
-				.on('web.warcraftsounds.error', function(err) {
+				.on('plugin.warcraft3sounds.error', function(err) {
 
 					$popup.alert({
 						message: err,

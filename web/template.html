@@ -9,56 +9,47 @@
 
 		<div class="panel-body">
 
-			<div class="form-group" data-ng-show="!selectedrace">
+			<div class="form-group">
 
-				<label>Races ({{races.length}})</label>
+				<label>Races</label>
+
+				<div class="form-group" data-ng-show="1 >= races.length">
+					<div class="form-control" data-ng-show="0 == races.length">-- Aucune race --</div>
+					<div class="form-control" data-ng-show="1 == races.length">{{selectedrace.name}}</div>
+				</div>
 
 				<select class="form-control"
 						data-ng-disabled="!races.length" data-ng-class="{'disabled' : !races.length }"
 						data-ng-options="race.name for race in races"
 						data-ng-model="selectedrace"
-						data-ng-change="selectRace(selectedrace);">
-					<option value="">-- NC --</option>
+						data-ng-change="selectRace(selectedrace);"
+						data-ng-show="1 < categories.length">
+					<option value="">-- Choisissez une race --</option>
 				</select>
 
 			</div>
 
 			<div data-ng-show="selectedrace">
 
-				<div class="form-group" data-ng-show="children.length">
+				<div class="row">
+					
+					<div class="form-group col-xs-6">
 
-					<label>Enfants ({{children.length}})</label>
-
-					<select class="form-control"
-							data-ng-options="child.name for child in children"
-							data-ng-model="selectedchild">
-						<option value="">-- NC --</option>
-					</select>
-
-				</div>
-
-				<div data-ng-hide="selectedcharacter">
-
-					<div class="form-group">
-
-						<button type="button" class="btn btn-primary form-control"
-								data-ng-click="emptyRace();">
-							<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp; Retour
-						</button>
-
-					</div>
-
-					<div class="form-group">
-
-						<label>Musiques ({{musics.length}})</label>
+						<label>Musiques</label>
 
 						<div class="input-group">
+
+							<div class="form-group" data-ng-show="1 >= musics.length">
+								<div class="form-control" data-ng-show="0 == musics.length">-- Aucune musique --</div>
+								<div class="form-control" data-ng-show="1 == musics.length">{{selectedmusic.name}}</div>
+							</div>
 
 							<select class="form-control"
 									data-ng-disabled="!musics.length" data-ng-class="{'disabled' : !musics.length }"
 									data-ng-options="music.name for music in musics"
-									data-ng-model="selectedmusic">
-								<option value="">-- NC --</option>
+									data-ng-model="selectedmusic"
+									data-ng-show="1 < musics.length">
+								<option value="">-- Choisissez une musique --</option>
 							</select>
 
 							<span class="input-group-btn">
@@ -70,10 +61,17 @@
 								</button>
 
 								<button type="button" class="btn btn-primary"
-								 		data-ng-show="children.length"
 										data-ng-disabled="!selectedmusic || !selectedchild" data-ng-class="{'disabled' : !selectedmusic || !selectedchild }"
-										data-ng-click="playMusicOnChild(selectedmusic, selectedchild);">
-									<span class="glyphicon glyphicon-cloud-upload"></span>
+										data-ng-click="playMusicOnChild(selectedchild, selectedmusic);"
+										data-toggle="tooltip" data-placement="auto" title="Jouer cette musique sur cet enfant">
+									<span class="glyphicon glyphicon-music"></span>
+								</button>
+
+								<button type="button" class="btn btn-primary"
+										data-ng-disabled="!selectedmusic || !selectedchild" data-ng-class="{'disabled' : !selectedmusic || !selectedchild }"
+										data-ng-click="createSound(selectedchild, selectedmusic);"
+										data-toggle="tooltip" data-placement="auto" title="Créer une action avec cette musique sur cet enfant">
+										<span class="glyphicon glyphicon-fire"></span>
 								</button>
 
 							</span>
@@ -82,32 +80,46 @@
 
 					</div>
 
-					<div class="form-group">
+					<div class="form-group col-xs-6">
 
-						<label>Warnings ({{warnings.length}})</label>
+						<label>Alertes</label>
 
 						<div class="input-group">
+
+							<div class="form-group" data-ng-show="1 >= musics.length">
+								<div class="form-control" data-ng-show="0 == warnings.length">-- Aucune alerte --</div>
+								<div class="form-control" data-ng-show="1 == warnings.length">{{selectedwarning.name}}</div>
+							</div>
 
 							<select class="form-control"
 									data-ng-disabled="!warnings.length" data-ng-class="{'disabled' : !warnings.length }"
 									data-ng-options="warning.name for warning in warnings"
-									data-ng-model="selectedwarning">
-								<option value="">-- NC --</option>
+									data-ng-model="selectedwarning"
+									data-ng-show="1 < warnings.length">
+								<option value="">-- Choisissez une alerte --</option>
 							</select>
 
 							<span class="input-group-btn">
 
 								<button type="button" class="btn btn-primary"
 										data-ng-disabled="!selectedwarning" data-ng-class="{'disabled' : !selectedwarning }"
-										data-ng-click="previewWarning(selectedrace, selectedwarning);">
+										data-ng-click="previewWarning(selectedrace, selectedwarning);"
+										data-toggle="tooltip" data-placement="auto" title="Ecouter ce warning.">
 									<span class="glyphicon glyphicon-play"></span>
 								</button>
 
 								<button type="button" class="btn btn-primary"
-								 		data-ng-show="children.length"
 										data-ng-disabled="!selectedwarning || !selectedchild" data-ng-class="{'disabled' : !selectedwarning || !selectedchild }"
-										data-ng-click="playWarningOnChild(selectedwarning, selectedchild);">
-									<span class="glyphicon glyphicon-cloud-upload"></span>
+										data-ng-click="playWarningOnChild(selectedchild, selectedwarning);"
+										data-toggle="tooltip" data-placement="auto" title="Jouer cette alerte sur cet enfant">
+									<span class="glyphicon glyphicon-music"></span>
+								</button>
+
+								<button type="button" class="btn btn-primary"
+										data-ng-disabled="!selectedwarning || !selectedchild" data-ng-class="{'disabled' : !selectedwarning || !selectedchild }"
+										data-ng-click="createSound(selectedchild, selectedwarning);"
+										data-toggle="tooltip" data-placement="auto" title="Créer une action avec cette alerte sur cet enfant">
+										<span class="glyphicon glyphicon-fire"></span>
 								</button>
 
 							</span>
@@ -116,44 +128,47 @@
 
 					</div>
 
-					<div class="form-group">
+				</div>
 
-						<label>Personnages ({{characters.length}})</label>
+				<div class="row">
+					
+					<div class="form-group" data-ng-class="{ 'col-xs-6': selectedcharacter, 'col-xs-12': !selectedcharacter }">
+
+						<label>Personnages</label>
+
+						<div class="form-group" data-ng-show="1 >= characters.length">
+							<div class="form-control" data-ng-show="0 == characters.length">-- Aucun personnage --</div>
+							<div class="form-control" data-ng-show="1 == characters.length">{{selectedcharacter.name}}</div>
+						</div>
 
 						<select class="form-control"
 								data-ng-disabled="!characters.length" data-ng-class="{'disabled' : !characters.length }"
 								data-ng-options="character.name for character in characters"
 								data-ng-model="selectedcharacter"
-								data-ng-change="selectCharacter(selectedrace, selectedcharacter);">
-							<option value="">-- NC --</option>
+								data-ng-change="selectCharacter(selectedrace, selectedcharacter);"
+								data-ng-show="1 < warnings.length">
+							<option value="">-- Choisissez un personnage --</option>
 						</select>
 
 					</div>
 
-				</div>
+					<div class="form-group col-xs-6" data-ng-show="selectedcharacter">
 
-				<div data-ng-show="selectedcharacter">
-
-					<div class="form-group">
-
-						<button type="button" class="btn btn-primary form-control"
-								data-ng-click="emptyCharacter();">
-							<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp; Retour
-						</button>
-
-					</div>
-
-					<div class="form-group">
-					
-						<label>Actions ({{actions.length}})</label>
+						<label>Actions</label>
 
 						<div class="input-group">
+
+							<div class="form-group" data-ng-show="1 >= actions.length">
+								<div class="form-control" data-ng-show="0 == actions.length">-- Aucune action --</div>
+								<div class="form-control" data-ng-show="1 == actions.length">{{selectedaction.name}}</div>
+							</div>
 
 							<select class="form-control"
 									data-ng-disabled="!actions.length" data-ng-class="{'disabled' : !actions.length }"
 									data-ng-options="action.name group by action.type.name for action in actions"
-									data-ng-model="selectedaction">
-								<option value="">-- NC --</option>
+									data-ng-model="selectedaction"
+									data-ng-show="1 < actions.length">
+								<option value="">-- Choisissez une action --</option>
 							</select>
 
 							<span class="input-group-btn">
@@ -165,13 +180,46 @@
 								</button>
 
 								<button type="button" class="btn btn-primary"
-								 		data-ng-show="children.length"
 										data-ng-disabled="!selectedaction || !selectedchild" data-ng-class="{'disabled' : !selectedaction || !selectedchild }"
-										data-ng-click="playActionOnChild(selectedaction, selectedchild)">
-									<span class="glyphicon glyphicon-cloud-upload"></span>
+										data-ng-click="playWarningOnChild(selectedchild, selectedaction);"
+										data-toggle="tooltip" data-placement="auto" title="Jouer cette action sur cet enfant">
+									<span class="glyphicon glyphicon-music"></span>
+								</button>
+
+								<button type="button" class="btn btn-primary"
+										data-ng-disabled="!selectedaction || !selectedchild" data-ng-class="{'disabled' : !selectedaction || !selectedchild }"
+										data-ng-click="playActionOnChild(selectedchild, selectedaction);"
+										data-toggle="tooltip" data-placement="auto" title="Créer une action avec cette action sur cet enfant">
+										<span class="glyphicon glyphicon-fire"></span>
 								</button>
 
 							</span>
+
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class="row" data-ng-show="selectedaction.code || selectedmusic.code || selectedwarning.code">
+					
+					<div class="form-group col-xs-12">
+
+						<div class="form-group" data-ng-show="childs.length">
+
+							<label>Enfants</label>
+
+							<div class="form-group" data-ng-show="1 >= childs.length">
+								<div class="form-control" data-ng-show="0 == childs.length">-- Aucun enfant --</div>
+								<div class="form-control" data-ng-show="1 == childs.length">{{selectedchild.name}}</div>
+							</div>
+
+							<select class="form-control"
+									data-ng-options="child.name for child in childs"
+									data-ng-model="selectedchild"
+									data-ng-show="1 < childs.length">
+								<option value="">-- Choisissez un enfant --</option>
+							</select>
 
 						</div>
 
