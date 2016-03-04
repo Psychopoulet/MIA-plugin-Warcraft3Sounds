@@ -121,54 +121,81 @@ app.controller('ControllerWarcraftSounds', ['$scope', '$popup', function($scope,
 			// actionstypes
 
 			socket.on('actionstypes', function(actionstypes) {
-				tabActionsTypes = actionstypes;
-				$scope.$apply();
+				$scope.$apply(function() { tabActionsTypes = actionstypes; });
 			})
 
 			// childs
 
 			.on('childs', function (childs) {
 				
-				$scope.childs = [];
-				angular.forEach(childs, function(child) {
+				$scope.$apply(function() {
 
-					if (child.connected && 'ACCEPTED' == child.status.code) {
-						$scope.childs.push(child);
-					}
+					$scope.childs = [];
+					angular.forEach(childs, function(child) {
 
+						if (child.connected && 'ACCEPTED' == child.status.code) {
+							$scope.childs.push(child);
+						}
+
+					});
+					
+					$scope.selectedchild = (1 == $scope.childs.length) ? $scope.childs[0] : null;
+					
 				});
-				
-				$scope.selectedchild = (1 == $scope.childs.length) ? $scope.childs[0] : null;
-				$scope.$apply();
 
 		    });
 	
 			// sockets
 
 				socket.on('plugin.warcraft3sounds.races.get', function (races) {
-					$scope.races = races;
-					$scope.selectRace((1 == $scope.races.length) ? $scope.races[0] : null);
-					$scope.$apply();
+
+					$scope.$apply(function() {
+
+						$scope.races = races;
+						$scope.selectRace((1 == $scope.races.length) ? $scope.races[0] : null);
+						
+					});
+
 				})
 				.on('plugin.warcraft3sounds.characters.get', function (characters) {
-					$scope.characters = characters;
-					$scope.selectCharacter($scope.selectedrace, (1 == $scope.characters.length) ? $scope.characters[0] : null);
-					$scope.$apply();
+
+					$scope.$apply(function() {
+
+						$scope.characters = characters;
+						$scope.selectCharacter($scope.selectedrace, (1 == $scope.characters.length) ? $scope.characters[0] : null);
+						
+					});
+
 				})
 					.on('plugin.warcraft3sounds.actions.get', function (actions) {
-						$scope.actions = actions;
-						$scope.selectedaction = (1 == $scope.actions.length) ? $scope.actions[0] : null;
-						$scope.$apply();
+
+						$scope.$apply(function() {
+
+							$scope.actions = actions;
+							$scope.selectedaction = (1 == $scope.actions.length) ? $scope.actions[0] : null;
+							
+						});
+
 					})
 				.on('plugin.warcraft3sounds.musics.get', function (musics) {
-					$scope.musics = musics;
-					$scope.selectedmusic = (1 == $scope.musics.length) ? $scope.musics[0] : null;
-					$scope.$apply();
+
+					$scope.$apply(function() {
+
+						$scope.musics = musics;
+						$scope.selectedmusic = (1 == $scope.musics.length) ? $scope.musics[0] : null;
+						
+					});
+
 				})
 				.on('plugin.warcraft3sounds.warnings.get', function (warnings) {
-					$scope.warnings = warnings;
-					$scope.selectedmusic = (1 == $scope.warnings.length) ? $scope.warnings[0] : null;
-					$scope.$apply();
+					
+					$scope.$apply(function() {
+
+						$scope.warnings = warnings;
+						$scope.selectedmusic = (1 == $scope.warnings.length) ? $scope.warnings[0] : null;
+						
+					});
+
 				})
 				.on('plugin.warcraft3sounds.error', function(err) {
 
