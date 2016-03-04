@@ -5,7 +5,8 @@
 
 	const 	path = require('path'),
 			fs = require('simplefs'),
-			SimplePluginsManager = require('simplepluginsmanager');
+			SimplePluginsManager = require('simplepluginsmanager'),
+			Warcraft3SoundsDatabase = require(path.join(__dirname, 'database', 'database.js'));
 
 // private
 
@@ -33,16 +34,23 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
  
 		this.directory = __dirname;
 		this.loadDataFromPackageFile();
+
+		this.database = new Warcraft3SoundsDatabase();
 		
-		// this.backupFilePath = path.join(__dirname, 'backup.json');
- 
 	}
 
 	loadRaces (Container) {
 
 		try {
 
-			Container.get('websockets').emit('plugin.warcraft3sounds.races.get', [ { code: 'humans', name: 'Humains' } ]);
+			this.database.getRaces().then(function(races) {
+
+				Container.get('websockets').emit('plugin.warcraft3sounds.races.get', races);
+
+			}).catch(function() {
+				Container.get('logs').err('-- [plugins/Warcraft3Sounds] - loadRaces : ' + ((e.message) ? e.message : e));
+				Container.get('websockets').emit('plugins.warcraft3sounds.error', ((e.message) ? e.message : e));
+			});
 
 		}
 		catch(e) {
@@ -56,27 +64,14 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 		
 		var that = this;
 
-		Container.get('websockets').onDisconnect(_freeSocket)
-		.onLog(function(socket) {
+		this.database.init().then(function() {
 
-			that.loadRaces(Container);
+			Container.get('websockets').onDisconnect(_freeSocket)
+			.onLog(function(socket) {
 
-			socket.on('plugin.warcraft3sounds.characters.get', function (data) {
+				that.loadRaces(Container);
 
-				if (!data) {
-					Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
-				}
-				else if (!data.race || !data.race.code) {
-					Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing race code.');
-				}
-				else {
-
-					Container.get('websockets').emit('plugin.warcraft3sounds.characters.get', [{ code: 'paladin', name: 'Paladin' }]);
-
-				}
-
-			})
-				.on('plugin.warcraft3sounds.actions.get', function (data) {
+				socket.on('plugin.warcraft3sounds.characters.get', function (data) {
 
 					if (!data) {
 						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
@@ -84,96 +79,117 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 					else if (!data.race || !data.race.code) {
 						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing race code.');
 					}
-					else if (!data.character || !data.character.code) {
-						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing character code.');
-					}
 					else {
 
-						Container.get('websockets').emit('plugin.warcraft3sounds.actions.get', []);
+						Container.get('websockets').emit('plugin.warcraft3sounds.characters.get', [{ code: 'paladin', name: 'Paladin' }]);
 
 					}
 
 				})
-			.on('plugin.warcraft3sounds.musics.get', function (data) {
+					.on('plugin.warcraft3sounds.actions.get', function (data) {
 
-				if (!data) {
-					Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
-				}
-				else if (!data.race || !data.race.code) {
-					Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing race code.');
-				}
-				else {
+						if (!data) {
+							Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
+						}
+						else if (!data.race || !data.race.code) {
+							Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing race code.');
+						}
+						else if (!data.character || !data.character.code) {
+							Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing character code.');
+						}
+						else {
 
-					Container.get('websockets').emit('plugin.warcraft3sounds.musics.get', []);
+							Container.get('websockets').emit('plugin.warcraft3sounds.actions.get', []);
 
-				}
+						}
 
-			})
-			.on('plugin.warcraft3sounds.warnings.get', function (data) {
+					})
+				.on('plugin.warcraft3sounds.musics.get', function (data) {
 
-				if (!data) {
-					Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
-				}
-				else if (!data.race || !data.race.code) {
-					Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing race code.');
-				}
-				else {
-					
-					Container.get('websockets').emit('plugin.warcraft3sounds.warnings.get', []);
+					if (!data) {
+						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
+					}
+					else if (!data.race || !data.race.code) {
+						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing race code.');
+					}
+					else {
 
-				}
+						Container.get('websockets').emit('plugin.warcraft3sounds.musics.get', []);
 
-			})
+					}
 
-			.on('plugin.warcraft3sounds.action.play', function (data) {
+				})
+				.on('plugin.warcraft3sounds.warnings.get', function (data) {
 
-				if (!data) {
-					Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
-				}
-				else if (!data.action) {
-					socket.emit('plugin.warcraft3sounds.error', 'Missing \'action\' data');
-				}
-				else if (!data.action.url) {
-					socket.emit('plugin.warcraft3sounds.error', 'Missing \'action.url\' data');
-				}
-				else {
-					Container.get('childssockets').emitTo(data.child.token, 'child.sounds.play', data.action);
-				}
-					
-			})
-			.on('plugin.warcraft3sounds.music.play', function (data) {
+					if (!data) {
+						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
+					}
+					else if (!data.race || !data.race.code) {
+						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing race code.');
+					}
+					else {
+						
+						Container.get('websockets').emit('plugin.warcraft3sounds.warnings.get', []);
 
-				if (!data) {
-					Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
-				}
-				else if (!data.music) {
-					socket.emit('plugin.warcraft3sounds.error', 'Missing \'music\' data');
-				}
-				else if (!data.music.url) {
-					socket.emit('plugin.warcraft3sounds.error', 'Missing \'music.url\' data');
-				}
-				else {
-					Container.get('childssockets').emitTo(data.child.token, 'child.sounds.play', data.music);
-				}
+					}
 
-			})
-			.on('plugin.warcraft3sounds.warning.play', function (data) {
+				})
 
-				if (!data) {
-					Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
-				}
-				else if (!data.warning) {
-					socket.emit('plugin.warcraft3sounds.error', 'Missing \'warning\' data');
-				}
-				else if (!data.warning.url) {
-					socket.emit('plugin.warcraft3sounds.error', 'Missing \'warning.url\' data');
-				}
-				else {
-					Container.get('childssockets').emitTo(data.child.token, 'child.sounds.play', data.warning);
-				}
+				.on('plugin.warcraft3sounds.action.play', function (data) {
+
+					if (!data) {
+						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
+					}
+					else if (!data.action) {
+						socket.emit('plugin.warcraft3sounds.error', 'Missing \'action\' data');
+					}
+					else if (!data.action.url) {
+						socket.emit('plugin.warcraft3sounds.error', 'Missing \'action.url\' data');
+					}
+					else {
+						Container.get('childssockets').emitTo(data.child.token, 'child.sounds.play', data.action);
+					}
+						
+				})
+				.on('plugin.warcraft3sounds.music.play', function (data) {
+
+					if (!data) {
+						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
+					}
+					else if (!data.music) {
+						socket.emit('plugin.warcraft3sounds.error', 'Missing \'music\' data');
+					}
+					else if (!data.music.url) {
+						socket.emit('plugin.warcraft3sounds.error', 'Missing \'music.url\' data');
+					}
+					else {
+						Container.get('childssockets').emitTo(data.child.token, 'child.sounds.play', data.music);
+					}
+
+				})
+				.on('plugin.warcraft3sounds.warning.play', function (data) {
+
+					if (!data) {
+						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
+					}
+					else if (!data.warning) {
+						socket.emit('plugin.warcraft3sounds.error', 'Missing \'warning\' data');
+					}
+					else if (!data.warning.url) {
+						socket.emit('plugin.warcraft3sounds.error', 'Missing \'warning.url\' data');
+					}
+					else {
+						Container.get('childssockets').emitTo(data.child.token, 'child.sounds.play', data.warning);
+					}
+
+				});
 
 			});
 
+		})
+		.catch(function(err) {
+			Container.get('logs').err('-- [plugins/Warcraft3Sounds] - init database : ' + ((err.message) ? err.message : err));
+			Container.get('websockets').emit('plugins.warcraft3sounds.error', ((err.message) ? err.message : err));
 		});
 
 	}
