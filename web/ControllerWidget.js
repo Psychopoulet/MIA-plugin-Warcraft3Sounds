@@ -152,7 +152,7 @@ app.controller('ControllerWarcraftSounds', ['$scope', '$popup', function($scope,
 					$scope.$apply(function() {
 
 						$scope.races = races;
-						$scope.selectRace((1 == $scope.races.length) ? $scope.races[0] : null);
+						$scope.selectRace((1 == races.length) ? races[0] : null);
 						
 					});
 
@@ -162,7 +162,7 @@ app.controller('ControllerWarcraftSounds', ['$scope', '$popup', function($scope,
 					$scope.$apply(function() {
 
 						$scope.characters = characters;
-						$scope.selectCharacter($scope.selectedrace, (1 == $scope.characters.length) ? $scope.characters[0] : null);
+						$scope.selectCharacter($scope.selectedrace, (1 == characters.length) ? characters[0] : null);
 						
 					});
 
@@ -172,7 +172,7 @@ app.controller('ControllerWarcraftSounds', ['$scope', '$popup', function($scope,
 						$scope.$apply(function() {
 
 							$scope.actions = actions;
-							$scope.selectedaction = (1 == $scope.actions.length) ? $scope.actions[0] : null;
+							$scope.selectedaction = (1 == actions.length) ? actions[0] : null;
 							
 						});
 
@@ -182,7 +182,7 @@ app.controller('ControllerWarcraftSounds', ['$scope', '$popup', function($scope,
 					$scope.$apply(function() {
 
 						$scope.musics = musics;
-						$scope.selectedmusic = (1 == $scope.musics.length) ? $scope.musics[0] : null;
+						$scope.selectedmusic = (1 == musics.length) ? musics[0] : null;
 						
 					});
 
@@ -192,7 +192,7 @@ app.controller('ControllerWarcraftSounds', ['$scope', '$popup', function($scope,
 					$scope.$apply(function() {
 
 						$scope.warnings = warnings;
-						$scope.selectedmusic = (1 == $scope.warnings.length) ? $scope.warnings[0] : null;
+						$scope.selectedmusic = (1 == warnings.length) ? warnings[0] : null;
 						
 					});
 

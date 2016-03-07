@@ -47,14 +47,35 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 				Container.get('websockets').emit('plugin.warcraft3sounds.races.get', races);
 
-			}).catch(function() {
-				Container.get('logs').err('-- [plugins/Warcraft3Sounds] - loadRaces : ' + ((e.message) ? e.message : e));
-				Container.get('websockets').emit('plugins.warcraft3sounds.error', ((e.message) ? e.message : e));
+			}).catch(function(err) {
+				Container.get('logs').err('-- [plugins/Warcraft3Sounds] - loadRaces : ' + ((err.message) ? err.message : err));
+				Container.get('websockets').emit('plugins.warcraft3sounds.error', ((err.message) ? err.message : err));
 			});
 
 		}
 		catch(e) {
 			Container.get('logs').err('-- [plugins/Warcraft3Sounds] - loadRaces : ' + ((e.message) ? e.message : e));
+			Container.get('websockets').emit('plugins.warcraft3sounds.error', ((e.message) ? e.message : e));
+		}
+
+	}
+
+	loadCharacters (Container, race) {
+
+		try {
+
+			this.database.getCharacter(race).then(function(characters) {
+
+				Container.get('websockets').emit('plugin.warcraft3sounds.characters.get', characters);
+
+			}).catch(function(err) {
+				Container.get('logs').err('-- [plugins/Warcraft3Sounds] - loadCharacters : ' + ((err.message) ? err.message : err));
+				Container.get('websockets').emit('plugins.warcraft3sounds.error', ((err.message) ? err.message : err));
+			});
+
+		}
+		catch(e) {
+			Container.get('logs').err('-- [plugins/Warcraft3Sounds] - loadCharacters : ' + ((e.message) ? e.message : e));
 			Container.get('websockets').emit('plugins.warcraft3sounds.error', ((e.message) ? e.message : e));
 		}
 
@@ -80,9 +101,7 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing race code.');
 					}
 					else {
-
-						Container.get('websockets').emit('plugin.warcraft3sounds.characters.get', [{ code: 'paladin', name: 'Paladin' }]);
-
+						that.loadCharacters(Container, data.race);
 					}
 
 				})
@@ -200,10 +219,8 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 		Container.get('websockets').getSockets().forEach(_freeSocket);
 
-		/*if (isADelete && fs.fileExists(this.backupFilePath)) {
-			fs.unlinkSync(this.backupFilePath);
-		}*/
-		
+		this.database.close();
+
 	}
 
 };

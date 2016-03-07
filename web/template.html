@@ -23,7 +23,7 @@
 						data-ng-options="race.name for race in races"
 						data-ng-model="selectedrace"
 						data-ng-change="selectRace(selectedrace);"
-						data-ng-show="1 < categories.length">
+						data-ng-show="1 < races.length">
 					<option value="">-- Choisissez une race --</option>
 				</select>
 
@@ -146,7 +146,7 @@
 								data-ng-options="character.name for character in characters"
 								data-ng-model="selectedcharacter"
 								data-ng-change="selectCharacter(selectedrace, selectedcharacter);"
-								data-ng-show="1 < warnings.length">
+								data-ng-show="1 < characters.length">
 							<option value="">-- Choisissez un personnage --</option>
 						</select>
 
