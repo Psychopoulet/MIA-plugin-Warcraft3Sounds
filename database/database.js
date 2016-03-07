@@ -11,7 +11,7 @@
 module.exports = class Warcraft3SoundsDatabase {
 
 	constructor () {
-		this.db = new sqlite3.Database(path.join(__dirname, 'Warcraft3Sounds.sqlite3'));
+		this.db = null;
 	}
 
 	create () {
@@ -20,50 +20,141 @@ module.exports = class Warcraft3SoundsDatabase {
 
 		return new Promise(function(resolve, reject) {
 
-			that.db.run(
-				"CREATE TABLE races (" +
-					" id INTEGER PRIMARY KEY AUTOINCREMENT," +
-					" code VARCHAR(20) NOT NULL," +
-					" name VARCHAR(25) NOT NULL," +
-					" UNIQUE (code)" +
-			");", [], function(err) {
+			var createFile = path.join(__dirname, 'create.sql');
 
-				if (err) {
-					reject('(create table races) ' + (err.message) ? err.message : err);
+			try {
+
+				if (!fs.fileExists(createFile)) {
+					resolve();
 				}
 				else {
 
-					var req = that.db.prepare("INSERT INTO races (id, code, name) VALUES (:id, :code, :name);", function() {
+					fs.readFile(createFile, 'utf8', function (err, sql) {
 
 						if (err) {
 							reject((err.message) ? err.message : err);
 						}
 						else {
 
-							req.run({ ':id': 1, ':code': 'humans', ':name': 'Humains' });
-							req.run({ ':id': 2, ':code': 'nightelfs', ':name': 'Elfes de la nuit' });
-							req.run({ ':id': 3, ':code': 'orcs', ':name': 'Orcs' });
-							req.run({ ':id': 4, ':code': 'undeads', ':name': 'Morts vivants' });
-							req.run({ ':id': 5, ':code': 'neutrals', ':name': 'Neutres' });
+							var queries = [];
 
-							req.finalize(function() {
+							sql.split(';').forEach(function(query) {
 
-								if (err) {
-									reject((err.message) ? err.message : err);
-								}
-								else {
-									resolve();
+								query = query.trim().replace(/\s/g, " ").replace(/  /g, " ");
+
+								if ('' != query) {
+									queries.push(query + ';');
 								}
 
 							});
-						
-						}
 
+							function executeQueries(i) {
+
+								if (i >= queries.length) {
+									fs.unlink(createFile, resolve);
+								}
+								else {
+
+									that.db.run(queries[i], [], function(err) {
+
+										if (err) {
+											reject((err.message) ? err.message : err);
+										}
+										else {
+											executeQueries(i + 1);
+										}
+
+									});
+
+								}
+
+							}
+
+							executeQueries(0);
+
+						}
+						
 					});
 
 				}
 
-			});
+			}
+			catch(e) {
+				reject((e.message) ? e.message : e);
+			}
+
+		});
+
+	}
+
+	update () {
+
+		var that = this;
+
+		return new Promise(function(resolve, reject) {
+
+			var updateFile = path.join(__dirname, 'update.sql');
+
+			try {
+
+				if (!fs.fileExists(updateFile)) {
+					resolve();
+				}
+				else {
+
+					fs.readFile(updateFile, 'utf8', function (err, sql) {
+
+						if (err) {
+							reject((err.message) ? err.message : err);
+						}
+						else {
+
+							var queries = [];
+
+							sql.split(';').forEach(function(query) {
+
+								query = query.trim().replace(/\s/g, " ").replace(/  /g, " ");
+
+								if ('' != query) {
+									queries.push(query + ';');
+								}
+
+							});
+
+							function executeQueries(i) {
+
+								if (i >= queries.length) {
+									fs.unlink(updateFile, resolve);
+								}
+								else {
+
+									that.db.run(queries[i], [], function(err) {
+
+										if (err) {
+											reject((err.message) ? err.message : err);
+										}
+										else {
+											executeQueries(i + 1);
+										}
+
+									});
+
+								}
+
+							}
+
+							executeQueries(0);
+
+						}
+						
+					});
+
+				}
+
+			}
+			catch(e) {
+				reject((e.message) ? e.message : e);
+			}
 
 		});
 
@@ -77,18 +168,38 @@ module.exports = class Warcraft3SoundsDatabase {
 
 			var bCreationNeeded = !fs.fileExists(path.join(__dirname, 'Warcraft3Sounds.sqlite3'));
 
+			that.db = new sqlite3.Database(path.join(__dirname, 'Warcraft3Sounds.sqlite3'));
+
 			that.db.serialize(function() {
 
 				if (bCreationNeeded) {
-					that.create().then(function() { resolve(); }).catch(reject);
+
+					that.create().then(function() {
+						that.update().then(resolve).catch(reject);
+					}).catch(function(err) {
+						that.close(); reject(err);
+					});
+
 				}
 				else {
-					resolve();
+					that.update().then(resolve).catch(reject);
 				}
 
 			});
 
 		});
+
+	}
+
+	close() {
+
+		if (this.db) {
+
+			this.db.close(function() {
+				fs.unlink(path.join(__dirname, 'Warcraft3Sounds.sqlite3'));
+			});
+			
+		}
 
 	}
 
@@ -99,6 +210,33 @@ module.exports = class Warcraft3SoundsDatabase {
 		return new Promise(function(resolve, reject) {
 
 			that.db.all("SELECT id, code, name FROM races ORDER BY races.name;", [], function(err, rows) {
+
+				if (err) {
+					reject((err.message) ? err.message : err);
+				}
+				else if (!rows) {
+					resolve([]);
+				}
+				else {
+					resolve(rows);
+				}
+
+			});
+
+		});
+
+	}
+
+	getCharacter(race) {
+
+		var that = this;
+
+		return new Promise(function(resolve, reject) {
+
+			that.db.all("SELECT id, code, name, tft" +
+						" FROM characters" +
+						" WHERE characters.k_race = :id_race" +
+						" ORDER BY characters.name;", { ':id_race': race.id }, function(err, rows) {
 
 				if (err) {
 					reject((err.message) ? err.message : err);
