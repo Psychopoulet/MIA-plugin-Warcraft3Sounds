@@ -1,0 +1,14 @@
+{
+  "name": "Sons de Warcraft III",
+  "description": "Récupérez et utilisez les sons de Warcraft III dans MIA",
+  "version": "0.0.1",
+  "main": "main.js",
+  "author": "Sébastien VIDAL",
+  "license": "ISC",
+  "github" : "https://github.com/Psychopoulet/MIA-plugin-Warcraft3Sounds",
+  "widget" : "web/template.html",
+  "templates" : [ ],
+  "javascripts" : [
+    "web/ControllerWidget.js"
+  ]
+}
