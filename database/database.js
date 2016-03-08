@@ -47,7 +47,10 @@ module.exports = class Warcraft3SoundsDatabase {
 
 									sql.split(';').forEach(function(query) {
 
-										query = query.trim().replace(/\s/g, " ").replace(/  /g, " ");
+										query = query.trim()
+													.replace(/--(.*)\s/g, "")
+													.replace(/\s/g, " ")
+													.replace(/  /g, " ");
 
 										if ('' != query) {
 											queries.push(query + ';');
@@ -145,7 +148,7 @@ module.exports = class Warcraft3SoundsDatabase {
 
 	}
 
-	getCharacter(race) {
+	getCharacters(race) {
 
 		var that = this;
 
@@ -164,6 +167,92 @@ module.exports = class Warcraft3SoundsDatabase {
 				}
 				else {
 					resolve(rows);
+				}
+
+			});
+
+		});
+
+	}
+
+	getActions(character) {
+
+		var that = this;
+
+		return new Promise(function(resolve, reject) {
+
+			that.db.all("SELECT id, code, name, url" +
+						" FROM actions" +
+						" WHERE actions.k_character = :id_character" +
+						" ORDER BY actions.name;", { ':id_character': character.id }, function(err, rows) {
+
+				if (err) {
+					reject((err.message) ? err.message : err);
+				}
+				else if (!rows) {
+					resolve([]);
+				}
+				else {
+					resolve(rows);
+				}
+
+			});
+
+		});
+
+	}
+
+	getMusics(race) {
+
+		var that = this;
+
+		return new Promise(function(resolve, reject) {
+
+			that.db.all("SELECT id, code, name, url" +
+						" FROM musics" +
+						" WHERE musics.k_race = :id_race" +
+						" ORDER BY musics.name;", { ':id_race': race.id }, function(err, rows) {
+
+				if (err) {
+					reject((err.message) ? err.message : err);
+				}
+				else if (!rows) {
+					resolve([]);
+				}
+				else {
+					resolve(rows);
+				}
+
+			});
+
+		});
+
+	}
+
+	getWarnings(race) {
+
+		var that = this;
+
+		return new Promise(function(resolve, reject) {
+
+			that.db.all("SELECT warnings.id, warnings.code, warnings.name, warnings.url" +
+						" FROM warnings" +
+							" INNER JOIN warnings_types ON warnings_types.id = warnings.k_warning_type" +
+						" WHERE warnings.k_race = :id_race" +
+						" ORDER BY warnings_types.name, warnings.name;", { ':id_race': race.id }, function(err, rows) {
+
+				if (err) {
+					reject((err.message) ? err.message : err);
+				}
+				else if (!rows) {
+					resolve([]);
+				}
+				else {
+
+
+
+					resolve(rows);
+
 				}
 
 			});

@@ -14,7 +14,7 @@
 				<label>Races</label>
 
 				<div class="form-group" data-ng-show="1 >= races.length">
-					<div class="form-control" data-ng-show="0 == races.length">-- Aucune race --</div>
+					<div class="form-control" data-ng-show="0 == races.length">--</div>
 					<div class="form-control" data-ng-show="1 == races.length">{{selectedrace.name}}</div>
 				</div>
 
@@ -24,7 +24,7 @@
 						data-ng-model="selectedrace"
 						data-ng-change="selectRace(selectedrace);"
 						data-ng-show="1 < races.length">
-					<option value="">-- Choisissez une race --</option>
+					<option value="">--</option>
 				</select>
 
 			</div>
@@ -40,7 +40,7 @@
 						<div class="input-group">
 
 							<div class="form-group" data-ng-show="1 >= musics.length">
-								<div class="form-control" data-ng-show="0 == musics.length">-- Aucune musique --</div>
+								<div class="form-control" data-ng-show="0 == musics.length">--</div>
 								<div class="form-control" data-ng-show="1 == musics.length">{{selectedmusic.name}}</div>
 							</div>
 
@@ -49,7 +49,7 @@
 									data-ng-options="music.name for music in musics"
 									data-ng-model="selectedmusic"
 									data-ng-show="1 < musics.length">
-								<option value="">-- Choisissez une musique --</option>
+								<option value="">--</option>
 							</select>
 
 							<span class="input-group-btn">
@@ -87,7 +87,7 @@
 						<div class="input-group">
 
 							<div class="form-group" data-ng-show="1 >= musics.length">
-								<div class="form-control" data-ng-show="0 == warnings.length">-- Aucune alerte --</div>
+								<div class="form-control" data-ng-show="0 == warnings.length">--</div>
 								<div class="form-control" data-ng-show="1 == warnings.length">{{selectedwarning.name}}</div>
 							</div>
 
@@ -96,7 +96,7 @@
 									data-ng-options="warning.name for warning in warnings"
 									data-ng-model="selectedwarning"
 									data-ng-show="1 < warnings.length">
-								<option value="">-- Choisissez une alerte --</option>
+								<option value="">--</option>
 							</select>
 
 							<span class="input-group-btn">
@@ -137,7 +137,7 @@
 						<label>Personnages</label>
 
 						<div class="form-group" data-ng-show="1 >= characters.length">
-							<div class="form-control" data-ng-show="0 == characters.length">-- Aucun personnage --</div>
+							<div class="form-control" data-ng-show="0 == characters.length">--</div>
 							<div class="form-control" data-ng-show="1 == characters.length">{{selectedcharacter.name}}</div>
 						</div>
 
@@ -147,7 +147,7 @@
 								data-ng-model="selectedcharacter"
 								data-ng-change="selectCharacter(selectedrace, selectedcharacter);"
 								data-ng-show="1 < characters.length">
-							<option value="">-- Choisissez un personnage --</option>
+							<option value="">--</option>
 						</select>
 
 					</div>
@@ -159,7 +159,7 @@
 						<div class="input-group">
 
 							<div class="form-group" data-ng-show="1 >= actions.length">
-								<div class="form-control" data-ng-show="0 == actions.length">-- Aucune action --</div>
+								<div class="form-control" data-ng-show="0 == actions.length">--</div>
 								<div class="form-control" data-ng-show="1 == actions.length">{{selectedaction.name}}</div>
 							</div>
 
@@ -168,7 +168,7 @@
 									data-ng-options="action.name group by action.type.name for action in actions"
 									data-ng-model="selectedaction"
 									data-ng-show="1 < actions.length">
-								<option value="">-- Choisissez une action --</option>
+								<option value="">--</option>
 							</select>
 
 							<span class="input-group-btn">
@@ -210,7 +210,7 @@
 							<label>Enfants</label>
 
 							<div class="form-group" data-ng-show="1 >= childs.length">
-								<div class="form-control" data-ng-show="0 == childs.length">-- Aucun enfant --</div>
+								<div class="form-control" data-ng-show="0 == childs.length">--</div>
 								<div class="form-control" data-ng-show="1 == childs.length">{{selectedchild.name}}</div>
 							</div>
 
@@ -218,7 +218,7 @@
 									data-ng-options="child.name for child in childs"
 									data-ng-model="selectedchild"
 									data-ng-show="1 < childs.length">
-								<option value="">-- Choisissez un enfant --</option>
+								<option value="">--</option>
 							</select>
 
 						</div>

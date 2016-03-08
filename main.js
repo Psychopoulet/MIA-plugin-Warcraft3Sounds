@@ -48,34 +48,13 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 				Container.get('websockets').emit('plugin.warcraft3sounds.races.get', races);
 
 			}).catch(function(err) {
-				Container.get('logs').err('-- [plugins/Warcraft3Sounds] - loadRaces : ' + ((err.message) ? err.message : err));
+				Container.get('logs').err('-- [plugins/Warcraft3Sounds] - get races : ' + ((err.message) ? err.message : err));
 				Container.get('websockets').emit('plugins.warcraft3sounds.error', ((err.message) ? err.message : err));
 			});
 
 		}
 		catch(e) {
-			Container.get('logs').err('-- [plugins/Warcraft3Sounds] - loadRaces : ' + ((e.message) ? e.message : e));
-			Container.get('websockets').emit('plugins.warcraft3sounds.error', ((e.message) ? e.message : e));
-		}
-
-	}
-
-	loadCharacters (Container, race) {
-
-		try {
-
-			this.database.getCharacter(race).then(function(characters) {
-
-				Container.get('websockets').emit('plugin.warcraft3sounds.characters.get', characters);
-
-			}).catch(function(err) {
-				Container.get('logs').err('-- [plugins/Warcraft3Sounds] - loadCharacters : ' + ((err.message) ? err.message : err));
-				Container.get('websockets').emit('plugins.warcraft3sounds.error', ((err.message) ? err.message : err));
-			});
-
-		}
-		catch(e) {
-			Container.get('logs').err('-- [plugins/Warcraft3Sounds] - loadCharacters : ' + ((e.message) ? e.message : e));
+			Container.get('logs').err('-- [plugins/Warcraft3Sounds] - get races : ' + ((e.message) ? e.message : e));
 			Container.get('websockets').emit('plugins.warcraft3sounds.error', ((e.message) ? e.message : e));
 		}
 
@@ -101,7 +80,24 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing race code.');
 					}
 					else {
-						that.loadCharacters(Container, data.race);
+						
+						try {
+
+							that.database.getCharacters(data.race).then(function(characters) {
+
+								Container.get('websockets').emit('plugin.warcraft3sounds.characters.get', characters);
+
+							}).catch(function(err) {
+								Container.get('logs').err('-- [plugins/Warcraft3Sounds] - get characters : ' + ((err.message) ? err.message : err));
+								Container.get('websockets').emit('plugins.warcraft3sounds.error', ((err.message) ? err.message : err));
+							});
+
+						}
+						catch(e) {
+							Container.get('logs').err('-- [plugins/Warcraft3Sounds] - get characters : ' + ((e.message) ? e.message : e));
+							Container.get('websockets').emit('plugins.warcraft3sounds.error', ((e.message) ? e.message : e));
+						}
+
 					}
 
 				})
@@ -110,15 +106,27 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 						if (!data) {
 							Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
 						}
-						else if (!data.race || !data.race.code) {
-							Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing race code.');
-						}
 						else if (!data.character || !data.character.code) {
 							Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing character code.');
 						}
 						else {
 
-							Container.get('websockets').emit('plugin.warcraft3sounds.actions.get', []);
+							try {
+
+								that.database.getActions(data.character).then(function(actions) {
+
+									Container.get('websockets').emit('plugin.warcraft3sounds.actions.get', actions);
+
+								}).catch(function(err) {
+									Container.get('logs').err('-- [plugins/Warcraft3Sounds] - get actions : ' + ((err.message) ? err.message : err));
+									Container.get('websockets').emit('plugins.warcraft3sounds.error', ((err.message) ? err.message : err));
+								});
+
+							}
+							catch(e) {
+								Container.get('logs').err('-- [plugins/Warcraft3Sounds] - get actions : ' + ((e.message) ? e.message : e));
+								Container.get('websockets').emit('plugins.warcraft3sounds.error', ((e.message) ? e.message : e));
+							}
 
 						}
 
@@ -133,7 +141,22 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 					}
 					else {
 
-						Container.get('websockets').emit('plugin.warcraft3sounds.musics.get', []);
+						try {
+
+							that.database.getMusics(data.race).then(function(musics) {
+
+								Container.get('websockets').emit('plugin.warcraft3sounds.musics.get', musics);
+
+							}).catch(function(err) {
+								Container.get('logs').err('-- [plugins/Warcraft3Sounds] - get musics : ' + ((err.message) ? err.message : err));
+								Container.get('websockets').emit('plugins.warcraft3sounds.error', ((err.message) ? err.message : err));
+							});
+
+						}
+						catch(e) {
+							Container.get('logs').err('-- [plugins/Warcraft3Sounds] - get musics : ' + ((e.message) ? e.message : e));
+							Container.get('websockets').emit('plugins.warcraft3sounds.error', ((e.message) ? e.message : e));
+						}
 
 					}
 
@@ -148,7 +171,22 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 					}
 					else {
 						
-						Container.get('websockets').emit('plugin.warcraft3sounds.warnings.get', []);
+						try {
+
+							that.database.getWarnings(data.race).then(function(warnings) {
+
+								Container.get('websockets').emit('plugin.warcraft3sounds.warnings.get', warnings);
+
+							}).catch(function(err) {
+								Container.get('logs').err('-- [plugins/Warcraft3Sounds] - get warnings : ' + ((err.message) ? err.message : err));
+								Container.get('websockets').emit('plugins.warcraft3sounds.error', ((err.message) ? err.message : err));
+							});
+
+						}
+						catch(e) {
+							Container.get('logs').err('-- [plugins/Warcraft3Sounds] - get warnings : ' + ((e.message) ? e.message : e));
+							Container.get('websockets').emit('plugins.warcraft3sounds.error', ((e.message) ? e.message : e));
+						}
 
 					}
 
