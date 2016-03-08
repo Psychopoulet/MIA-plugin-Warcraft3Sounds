@@ -1,4 +1,4 @@
-app.controller('ControllerWarcraftSounds', ['$scope', '$popup', function($scope, $popup) {
+app.controller('ControllerWarcraftSounds', ['$scope', '$actions', '$popup', function($scope, $actions, $popup) {
 
 	"use strict";
 

@@ -181,14 +181,14 @@
 
 								<button type="button" class="btn btn-primary"
 										data-ng-disabled="!selectedaction || !selectedchild" data-ng-class="{'disabled' : !selectedaction || !selectedchild }"
-										data-ng-click="playWarningOnChild(selectedchild, selectedaction);"
+										data-ng-click="playActionOnChild(selectedchild, selectedaction);"
 										data-toggle="tooltip" data-placement="auto" title="Jouer cette action sur cet enfant">
 									<span class="glyphicon glyphicon-music"></span>
 								</button>
 
 								<button type="button" class="btn btn-primary"
 										data-ng-disabled="!selectedaction || !selectedchild" data-ng-class="{'disabled' : !selectedaction || !selectedchild }"
-										data-ng-click="playActionOnChild(selectedchild, selectedaction);"
+										data-ng-click="createSound(selectedchild, selectedaction);"
 										data-toggle="tooltip" data-placement="auto" title="Créer une action avec cette action sur cet enfant">
 										<span class="glyphicon glyphicon-fire"></span>
 								</button>
