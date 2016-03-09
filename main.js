@@ -301,7 +301,7 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 	}
 
-	free () {
+	free (Container) {
 
 		super.free();
 
