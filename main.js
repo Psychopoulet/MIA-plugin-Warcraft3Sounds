@@ -73,7 +73,7 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 			this.database.init().then(function() {
 
-				Container.get('express').get('/warcraft3sounds/:file', function(req, res) {
+				Container.get('express').get(that.basicurl + ':file', function(req, res) {
 
 					var file = path.join(__dirname, 'sounds', req.params.file);
 
