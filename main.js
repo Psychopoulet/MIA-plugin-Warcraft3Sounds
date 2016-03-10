@@ -301,15 +301,18 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 	}
 
-	free () {
+	free (Container, isADelete) {
 
 		super.free();
 
 		Container.get('websockets').getSockets().forEach(_freeSocket);
 		
-		fs.rmdirp(path.join(__dirname, 'sounds'));
 		this.database.close();
 
+		if (isADelete && fs.dirExists(path.join(__dirname, 'sounds'))) {
+			fs.rmdirp(path.join(__dirname, 'sounds'));
+		}
+		
 	}
 
 };
