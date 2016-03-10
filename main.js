@@ -36,7 +36,7 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 		this.loadDataFromPackageFile();
 
 		this.database = new Warcraft3SoundsDatabase();
-		this.basicurl = '/warcraft3sounds';
+		this.basicurl = '/warcraft3sounds/';
 		
 	}
 
