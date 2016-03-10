@@ -181,8 +181,11 @@ module.exports = class Warcraft3SoundsDatabase {
 
 		return new Promise(function(resolve, reject) {
 
-			that.db.all("SELECT id, code, name, file" +
+			that.db.all("SELECT" +
+							"  actions.id, actions.code, actions.name, actions.file, " +
+							"  actions_types.id AS type_id, actions_types.code AS type_code, actions_types.name AS type_name" +
 						" FROM actions" +
+							" INNER JOIN actions_types ON actions_types.id = actions.k_action_type" +
 						" WHERE actions.k_character = :id_character" +
 						" ORDER BY actions.name;", { ':id_character': character.id }, function(err, rows) {
 
@@ -193,7 +196,23 @@ module.exports = class Warcraft3SoundsDatabase {
 					resolve([]);
 				}
 				else {
+
+					rows.forEach(function(action, i) {
+
+						rows[i].type = {
+							id: rows[i].type_id,
+							code: rows[i].type_code,
+							name: rows[i].type_name
+						};
+
+						delete rows[i].type_id;
+						delete rows[i].type_code;
+						delete rows[i].type_name;
+
+					});
+
 					resolve(rows);
+					
 				}
 
 			});
