@@ -297,9 +297,11 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 	install (Container) {
 
-		if (!fs.mkdirp(path.join(__dirname, 'sounds'))) {
+		if (fs.mkdirp(path.join(__dirname, 'sounds'))) {
+			Container.get('logs').log("-- [plugins/Warcraft3Sounds] : Dossier des sons créé.");
+		}
+		else {
 			Container.get('logs').err("-- [plugins/Warcraft3Sounds] : Impossible de créer le dossier des sons.");
-			Container.get('websockets').emit('plugins.warcraft3sounds.error', "Impossible de créer le dossier des sons.");
 		}
 
 	}
@@ -307,7 +309,14 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 	uninstall () {
 
 		if (fs.dirExists(path.join(__dirname, 'sounds'))) {
-			fs.rmdirp(path.join(__dirname, 'sounds'));
+
+			if (fs.rmdirp(path.join(__dirname, 'sounds'))) {
+				Container.get('logs').log("-- [plugins/Warcraft3Sounds] : Dossier des sons supprimé.");
+			}
+			else {
+				Container.get('logs').err("-- [plugins/Warcraft3Sounds] : Impossible de supprimer le dossier des sons.");
+			}
+
 		}
 		
 	}
