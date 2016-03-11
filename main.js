@@ -32,44 +32,14 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
  
 		super();
  
-		this.directory = __dirname;
-		this.loadDataFromPackageFile();
-
 		this.database = new Warcraft3SoundsDatabase();
 		this.basicurl = '/warcraft3sounds/';
 		
 	}
 
-	loadRaces (Container) {
-
-		try {
-
-			this.database.getRaces().then(function(races) {
-
-				Container.get('websockets').emit('plugin.warcraft3sounds.races.get', races);
-
-			}).catch(function(err) {
-				Container.get('logs').err('-- [plugins/Warcraft3Sounds] - get races : ' + ((err.message) ? err.message : err));
-				Container.get('websockets').emit('plugins.warcraft3sounds.error', ((err.message) ? err.message : err));
-			});
-
-		}
-		catch(e) {
-			Container.get('logs').err('-- [plugins/Warcraft3Sounds] - get races : ' + ((e.message) ? e.message : e));
-			Container.get('websockets').emit('plugins.warcraft3sounds.error', ((e.message) ? e.message : e));
-		}
-
-	}
-
-	run (Container) {
+	load (Container) {
 		
 		var that = this;
-
-		if (!fs.mkdirp(path.join(__dirname, 'sounds'))) {
-			Container.get('logs').err("-- [plugins/Warcraft3Sounds] : Impossible de créer le dossier des sons.");
-			Container.get('websockets').emit('plugins.warcraft3sounds.error', "Impossible de créer le dossier des sons.");
-		}
-		else {
 
 			this.database.init().then(function() {
 
@@ -96,7 +66,22 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 				Container.get('websockets').onDisconnect(_freeSocket)
 				.onLog(function(socket) {
 
-					that.loadRaces(Container);
+					try {
+
+						that.database.getRaces().then(function(races) {
+
+							Container.get('websockets').emit('plugin.warcraft3sounds.races.get', races);
+
+						}).catch(function(err) {
+							Container.get('logs').err('-- [plugins/Warcraft3Sounds] - get races : ' + ((err.message) ? err.message : err));
+							Container.get('websockets').emit('plugins.warcraft3sounds.error', ((err.message) ? err.message : err));
+						});
+
+					}
+					catch(e) {
+						Container.get('logs').err('-- [plugins/Warcraft3Sounds] - get races : ' + ((e.message) ? e.message : e));
+						Container.get('websockets').emit('plugins.warcraft3sounds.error', ((e.message) ? e.message : e));
+					}
 
 					socket.on('plugin.warcraft3sounds.characters.get', function (data) {
 
@@ -301,15 +286,27 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 	}
 
-	free (Container, isADelete) {
+	unload (Container) {
 
-		super.free();
-
+		super.unload();
 		Container.get('websockets').getSockets().forEach(_freeSocket);
 		
 		this.database.close();
 
-		if (isADelete && fs.dirExists(path.join(__dirname, 'sounds'))) {
+	}
+
+	install (Container) {
+
+		if (!fs.mkdirp(path.join(__dirname, 'sounds'))) {
+			Container.get('logs').err("-- [plugins/Warcraft3Sounds] : Impossible de créer le dossier des sons.");
+			Container.get('websockets').emit('plugins.warcraft3sounds.error', "Impossible de créer le dossier des sons.");
+		}
+
+	}
+
+	uninstall () {
+
+		if (fs.dirExists(path.join(__dirname, 'sounds'))) {
 			fs.rmdirp(path.join(__dirname, 'sounds'));
 		}
 		

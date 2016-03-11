@@ -283,5 +283,4 @@ INSERT INTO actions (k_character, k_action_type, code, name, file) VALUES
 (59, 4, 'yes1', '', 'JainaYes1.wav'),
 (59, 4, 'yes2', '', 'JainaYes2.wav'),
 (59, 4, 'yes3', '', 'JainaYes3.wav'),
-(59, 4, 'yes4', '', 'JainaYes4.wav'),
-(59, 7, 'death1', '', 'humans_actions_jaina_death_death1.wav');
+(59, 4, 'yes4', '', 'JainaYes4.wav');
