@@ -33,14 +33,13 @@
 
 				<div class="row">
 					
-					<div class="form-group col-xs-6">
+					<div class="form-group" data-ng-class="{ 'col-xs-6': 0 < warnings.length, 'col-xs-12': 0 >= warnings.length }" data-ng-show="0 < musics.length">
 
 						<label>Musiques</label>
 
 						<div class="input-group">
 
-							<div class="form-group" data-ng-show="1 >= musics.length">
-								<div class="form-control" data-ng-show="0 == musics.length">--</div>
+							<div class="form-group" data-ng-show="1 == musics.length">
 								<div class="form-control" data-ng-show="1 == musics.length">{{selectedmusic.name}}</div>
 							</div>
 
@@ -80,15 +79,14 @@
 
 					</div>
 
-					<div class="form-group col-xs-6">
+					<div class="form-group" data-ng-class="{ 'col-xs-6': 0 < musics.length, 'col-xs-12': 0 >= musics.length }" data-ng-show="0 < warnings.length">
 
 						<label>Alertes</label>
 
 						<div class="input-group">
 
-							<div class="form-group" data-ng-show="1 >= warnings.length">
-								<div class="form-control" data-ng-show="0 == warnings.length">--</div>
-								<div class="form-control" data-ng-show="1 == warnings.length">{{selectedwarning.name}}</div>
+							<div class="form-group" data-ng-show="1 == warnings.length">
+								<div class="form-control">{{selectedwarning.name}}</div>
 							</div>
 
 							<select class="form-control"
@@ -130,7 +128,7 @@
 
 				</div>
 
-				<div class="row">
+				<div class="row" data-ng-show="0 < characters.length">
 					
 					<div class="form-group" data-ng-class="{ 'col-xs-6': selectedcharacter, 'col-xs-12': !selectedcharacter }">
 
@@ -156,10 +154,10 @@
 
 						<label>Actions</label>
 
-						<div class="input-group">
+						<div data-ng-class="{'input-group' : 0 < actions.length }">
 
 							<div class="form-group" data-ng-show="1 >= actions.length">
-								<div class="form-control" data-ng-show="0 == actions.length">--</div>
+								<div class="form-control" data-ng-show="0 == actions.length">Aucune action</div>
 								<div class="form-control" data-ng-show="1 == actions.length">{{selectedaction.name}}</div>
 							</div>
 
@@ -171,7 +169,7 @@
 								<option value="">--</option>
 							</select>
 
-							<span class="input-group-btn">
+							<span class="input-group-btn" data-ng-show="0 < actions.length">
 
 								<button type="button" class="btn btn-primary"
 										data-ng-disabled="!selectedaction" data-ng-class="{'disabled' : !selectedaction }"
