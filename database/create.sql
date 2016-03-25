@@ -107,7 +107,25 @@ INSERT INTO warnings (k_race, k_warning_type, code, name, file) VALUES
 (1, 14, 'allyherodies', 'Le héro de notre allié est tombé', 'KnightAllyHeroDies1.wav'),
 (1, 15, 'buildingcomplete', 'Travail terminé', 'PeasantBuildingComplete1.wav'),
 (1, 16, 'upgradecomplete', 'Amélioration terminée', 'KnightUpgradeComplete1.wav'),
-(1, 17, 'researchcomplete', 'Recherche terminée', 'KnightResearchComplete1.wav');
+(1, 17, 'researchcomplete', 'Recherche terminée', 'KnightResearchComplete1.wav'),
+
+(3, 1, 'cannotbuildthere', 'Impossible de construire ici', 'PeonCannotBuildThere1.wav'),
+(3, 2, 'goldminelow', 'Notre mine d''or est presque épuisée', 'GruntGoldMineLow1.wav'),
+(3, 3, 'goldminecollapsed', 'Notre mine d''or s''est effondrée', 'GruntGoldMineCollapsed1.wav'),
+(3, 4, 'nofood', 'Construisez d''autres antre des orcs', 'GruntNoFood1.wav'),
+(3, 5, 'noenergy', 'Pas assez de mana', 'GruntNoEnergy1.wav'),
+(3, 6, 'nogold', 'Il faut plus d''or', 'GruntNoGold1.wav'),
+(3, 7, 'nolumber', 'Il faut plus de bois', 'GruntNoLumber1.wav'),
+(3, 8, 'inventoryfull', 'Inventaire plein', 'GruntInventoryFull1.wav'),
+(3, 9, 'townattack', 'Notre ville est attaquée !', 'GruntTownAttack1.wav'),
+(3, 10, 'unitattack', 'Nous sommes attaqués !', 'GruntUnitAttack1.wav'),
+(3, 11, 'herodies', 'Notre héros a été vaincu', 'GruntHeroDies1.wav'),
+(3, 12, 'allytownattack', 'La ville de notre allié est attaquée !', 'GruntAllyTownAttack1.wav'),
+(3, 13, 'allyattack', 'Notre allié a besoin de nous', 'GruntAllyUnderAttack1.wav'),
+(3, 14, 'allyherodies', 'Le héros de notre allié est mort', 'GruntAllyHeroDies1.wav'),
+(3, 15, 'buildingcomplete', 'travail terminée', 'PeonJobDone.wav'),
+(3, 16, 'upgradecomplete', 'Amélioration terminée', 'GruntUpgradeComplete1.wav'),
+(3, 17, 'researchcomplete', 'Recherche terminée', 'GruntResearchComplete1.wav');
 
 -- characters
 
