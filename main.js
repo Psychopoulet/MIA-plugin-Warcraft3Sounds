@@ -47,6 +47,12 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 				var file = path.join(__dirname, 'sounds', req.params.file);
 
+				if (Container.get('conf').get('debug')) {
+					Container.get('logs').log('warcraft3sounds / get file');
+					Container.get('logs').log(req.params.file);
+					Container.get('logs').log(file);
+				}
+
 				if (fs.fileExists(file)) {
 					res.sendFile(file);
 				}
