@@ -91,6 +91,24 @@ CREATE TABLE warnings (
 
 INSERT INTO warnings (k_race, k_warning_type, code, name, file) VALUES
 
+(2, 1, 'cannotbuildthere', 'Impossible de construire ici.', 'HuntressCannotBuildThere1.wav'),
+(2, 2, 'goldminelow', 'Notre mine d''or est presque épuisée', 'HuntressGoldMineLow1.wav'),
+(2, 3, 'goldminecollapsed', 'Notre mine d''or s''est effondrée', 'HuntressGoldMineCollapsed1.wav'),
+(2, 4, 'nofood', 'Construisez plus de puits de lune', 'HuntressNoFood1.wav'),
+(2, 5, 'noenergy', 'Plus de mana', 'SentinelNoEnergy1.wav'),
+(2, 6, 'nogold', 'Pas assez d''or', 'SentinelNoGold1.wav'),
+(2, 7, 'nolumber', 'Pas assez de bois', 'SentinelNoLumber1.wav'),
+(2, 8, 'inventoryfull', 'Inventaire plein', 'SentinelInventoryFull1.wav'),
+(2, 9, 'townattack', 'Ils souillent notre sanctuaire !', 'SentinelTownAttack1.wav'),
+(2, 10, 'unitattack', 'Nos guerriers engagent l''ennemi', 'SentinelUnitAttack1.wav'),
+(2, 11, 'herodies', 'Notre champion est mort', 'SentinelHeroDies1.wav'),
+(2, 12, 'allytownattack', 'La ville de notre allié a besoin de nous !', 'SentinelAllyTownAttack1.wav'),
+(2, 13, 'allyattack', 'Nous devons aider nos alliés !', 'SentinelAllyUnderAttack1.wav'),
+(2, 14, 'allyherodies', 'Un champion allié est tombé !', 'SentinelAllyHeroDies1.wav'),
+(2, 15, 'buildingcomplete', 'Bâtiment construit.', 'HuntressBuildingComplete1.wav'),
+(2, 16, 'upgradecomplete', 'Amélioration terminée', 'SentinelUpgradeComplete1.wav'),
+(2, 17, 'researchcomplete', 'Recherche terminée', 'SentinelResearchComplete1.wav'),
+
 (1, 1, 'cannotbuildthere', 'Je ne peux rien bâtir ici', 'PeasantCannotBuildThere1.wav'),
 (1, 2, 'goldminelow', 'Notre mine d''or est presque épuisée', 'KnightGoldMineLow1.wav'),
 (1, 3, 'goldminecollapsed', 'Notre mine d''or s''est effondrée', 'KnightGoldMineCollapsed1.wav'),
@@ -123,7 +141,7 @@ INSERT INTO warnings (k_race, k_warning_type, code, name, file) VALUES
 (3, 12, 'allytownattack', 'La ville de notre allié est attaquée !', 'GruntAllyTownAttack1.wav'),
 (3, 13, 'allyattack', 'Notre allié a besoin de nous', 'GruntAllyUnderAttack1.wav'),
 (3, 14, 'allyherodies', 'Le héros de notre allié est mort', 'GruntAllyHeroDies1.wav'),
-(3, 15, 'buildingcomplete', 'travail terminée', 'PeonJobDone.wav'),
+(3, 15, 'buildingcomplete', 'Travail terminé', 'PeonJobDone.wav'),
 (3, 16, 'upgradecomplete', 'Amélioration terminée', 'GruntUpgradeComplete1.wav'),
 (3, 17, 'researchcomplete', 'Recherche terminée', 'GruntResearchComplete1.wav');
 

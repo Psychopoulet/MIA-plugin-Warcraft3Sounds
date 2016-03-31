@@ -107,17 +107,24 @@ module.exports = class Warcraft3SoundsDatabase {
 
 		return new Promise(function(resolve, reject) {
 
-			if (!that.db) {
-				that.db = null;
-				fs.unlink(that.dbFile, resolve);
-			}
-			else {
+			try {
 
-				that.db.close(function() {
+				if (!that.db) {
 					that.db = null;
 					fs.unlink(that.dbFile, resolve);
-				});
-				
+				}
+				else {
+
+					that.db.close(function() {
+						that.db = null;
+						fs.unlink(that.dbFile, resolve);
+					});
+					
+				}
+
+			}
+			catch(e) {
+				reject((e.message) ? e.message : e);
 			}
 
 		});
@@ -130,19 +137,26 @@ module.exports = class Warcraft3SoundsDatabase {
 
 		return new Promise(function(resolve, reject) {
 
-			that.db.all("SELECT id, code, name FROM races ORDER BY races.name;", [], function(err, rows) {
+			try {
 
-				if (err) {
-					reject((err.message) ? err.message : err);
-				}
-				else if (!rows) {
-					resolve([]);
-				}
-				else {
-					resolve(rows);
-				}
+				that.db.all("SELECT id, code, name FROM races ORDER BY races.name;", [], function(err, rows) {
 
-			});
+					if (err) {
+						reject((err.message) ? err.message : err);
+					}
+					else if (!rows) {
+						resolve([]);
+					}
+					else {
+						resolve(rows);
+					}
+
+				});
+
+			}
+			catch(e) {
+				reject((e.message) ? e.message : e);
+			}
 
 		});
 
@@ -154,22 +168,29 @@ module.exports = class Warcraft3SoundsDatabase {
 
 		return new Promise(function(resolve, reject) {
 
-			that.db.all("SELECT id, code, name, tft" +
-						" FROM characters" +
-						" WHERE characters.k_race = :id_race" +
-						" ORDER BY characters.name;", { ':id_race': race.id }, function(err, rows) {
+			try {
 
-				if (err) {
-					reject((err.message) ? err.message : err);
-				}
-				else if (!rows) {
-					resolve([]);
-				}
-				else {
-					resolve(rows);
-				}
+				that.db.all("SELECT id, code, name, tft" +
+							" FROM characters" +
+							" WHERE characters.k_race = :id_race" +
+							" ORDER BY characters.name;", { ':id_race': race.id }, function(err, rows) {
 
-			});
+					if (err) {
+						reject((err.message) ? err.message : err);
+					}
+					else if (!rows) {
+						resolve([]);
+					}
+					else {
+						resolve(rows);
+					}
+
+				});
+
+			}
+			catch(e) {
+				reject((e.message) ? e.message : e);
+			}
 
 		});
 
@@ -181,41 +202,48 @@ module.exports = class Warcraft3SoundsDatabase {
 
 		return new Promise(function(resolve, reject) {
 
-			that.db.all("SELECT" +
-							"  actions.id, actions.code, actions.name, actions.file, " +
-							"  actions_types.id AS type_id, actions_types.code AS type_code, actions_types.name AS type_name" +
-						" FROM actions" +
-							" INNER JOIN actions_types ON actions_types.id = actions.k_action_type" +
-						" WHERE actions.k_character = :id_character" +
-						" ORDER BY actions.name;", { ':id_character': character.id }, function(err, rows) {
+			try {
 
-				if (err) {
-					reject((err.message) ? err.message : err);
-				}
-				else if (!rows) {
-					resolve([]);
-				}
-				else {
+				that.db.all("SELECT" +
+								"  actions.id, actions.code, actions.name, actions.file, " +
+								"  actions_types.id AS type_id, actions_types.code AS type_code, actions_types.name AS type_name" +
+							" FROM actions" +
+								" INNER JOIN actions_types ON actions_types.id = actions.k_action_type" +
+							" WHERE actions.k_character = :id_character" +
+							" ORDER BY actions.name;", { ':id_character': character.id }, function(err, rows) {
 
-					rows.forEach(function(action, i) {
+					if (err) {
+						reject((err.message) ? err.message : err);
+					}
+					else if (!rows) {
+						resolve([]);
+					}
+					else {
 
-						rows[i].type = {
-							id: rows[i].type_id,
-							code: rows[i].type_code,
-							name: rows[i].type_name
-						};
+						rows.forEach(function(action, i) {
 
-						delete rows[i].type_id;
-						delete rows[i].type_code;
-						delete rows[i].type_name;
+							rows[i].type = {
+								id: rows[i].type_id,
+								code: rows[i].type_code,
+								name: rows[i].type_name
+							};
 
-					});
+							delete rows[i].type_id;
+							delete rows[i].type_code;
+							delete rows[i].type_name;
 
-					resolve(rows);
-					
-				}
+						});
 
-			});
+						resolve(rows);
+						
+					}
+
+				});
+
+			}
+			catch(e) {
+				reject((e.message) ? e.message : e);
+			}
 
 		});
 
@@ -227,22 +255,29 @@ module.exports = class Warcraft3SoundsDatabase {
 
 		return new Promise(function(resolve, reject) {
 
-			that.db.all("SELECT id, code, name, file" +
-						" FROM musics" +
-						" WHERE musics.k_race = :id_race" +
-						" ORDER BY musics.name;", { ':id_race': race.id }, function(err, rows) {
+			try {
 
-				if (err) {
-					reject((err.message) ? err.message : err);
-				}
-				else if (!rows) {
-					resolve([]);
-				}
-				else {
-					resolve(rows);
-				}
+				that.db.all("SELECT id, code, name, file" +
+							" FROM musics" +
+							" WHERE musics.k_race = :id_race" +
+							" ORDER BY musics.name;", { ':id_race': race.id }, function(err, rows) {
 
-			});
+					if (err) {
+						reject((err.message) ? err.message : err);
+					}
+					else if (!rows) {
+						resolve([]);
+					}
+					else {
+						resolve(rows);
+					}
+
+				});
+
+			}
+			catch(e) {
+				reject((e.message) ? e.message : e);
+			}
 
 		});
 
@@ -254,40 +289,47 @@ module.exports = class Warcraft3SoundsDatabase {
 
 		return new Promise(function(resolve, reject) {
 
-			that.db.all("SELECT warnings.id, warnings.code, warnings.name, warnings.file," +
-						" warnings_types.id AS type_id, warnings_types.code AS type_code, warnings_types.name AS type_name" +
-						" FROM warnings" +
-							" INNER JOIN warnings_types ON warnings_types.id = warnings.k_warning_type" +
-						" WHERE warnings.k_race = :id_race" +
-						" ORDER BY warnings_types.name, warnings.name;", { ':id_race': race.id }, function(err, rows) {
+			try {
 
-				if (err) {
-					reject((err.message) ? err.message : err);
-				}
-				else if (!rows) {
-					resolve([]);
-				}
-				else {
+				that.db.all("SELECT warnings.id, warnings.code, warnings.name, warnings.file," +
+							" warnings_types.id AS type_id, warnings_types.code AS type_code, warnings_types.name AS type_name" +
+							" FROM warnings" +
+								" INNER JOIN warnings_types ON warnings_types.id = warnings.k_warning_type" +
+							" WHERE warnings.k_race = :id_race" +
+							" ORDER BY warnings_types.name, warnings.name;", { ':id_race': race.id }, function(err, rows) {
 
-					rows.forEach(function(action, i) {
+					if (err) {
+						reject((err.message) ? err.message : err);
+					}
+					else if (!rows) {
+						resolve([]);
+					}
+					else {
 
-						rows[i].type = {
-							id: rows[i].type_id,
-							code: rows[i].type_code,
-							name: rows[i].type_name
-						};
+						rows.forEach(function(action, i) {
 
-						delete rows[i].type_id;
-						delete rows[i].type_code;
-						delete rows[i].type_name;
+							rows[i].type = {
+								id: rows[i].type_id,
+								code: rows[i].type_code,
+								name: rows[i].type_name
+							};
 
-					});
+							delete rows[i].type_id;
+							delete rows[i].type_code;
+							delete rows[i].type_name;
 
-					resolve(rows);
+						});
 
-				}
+						resolve(rows);
 
-			});
+					}
+
+				});
+
+			}
+			catch(e) {
+				reject((e.message) ? e.message : e);
+			}
 
 		});
 
