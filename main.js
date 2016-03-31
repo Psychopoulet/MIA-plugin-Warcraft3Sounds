@@ -74,6 +74,10 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 				try {
 
+					if (Container.get('conf').get('debug')) {
+						Container.get('logs').log('plugin.warcraft3sounds.races.get');
+					}
+
 					that.database.getRaces().then(function(races) {
 
 						Container.get('websockets').emit('plugin.warcraft3sounds.races.get', races);
@@ -90,6 +94,10 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 				}
 
 				socket.on('plugin.warcraft3sounds.characters.get', function (data) {
+
+					if (Container.get('conf').get('debug')) {
+						Container.get('logs').log('plugin.warcraft3sounds.characters.get');
+					}
 
 					if (!data) {
 						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
@@ -120,6 +128,10 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 				})
 					.on('plugin.warcraft3sounds.actions.get', function (data) {
+
+						if (Container.get('conf').get('debug')) {
+							Container.get('logs').log('plugin.warcraft3sounds.actions.get');
+						}
 
 						if (!data) {
 							Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
@@ -158,6 +170,10 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 					})
 				.on('plugin.warcraft3sounds.musics.get', function (data) {
 
+					if (Container.get('conf').get('debug')) {
+						Container.get('logs').log('plugin.warcraft3sounds.musics.get');
+					}
+
 					if (!data) {
 						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
 					}
@@ -194,6 +210,10 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 				})
 				.on('plugin.warcraft3sounds.warnings.get', function (data) {
+
+					if (Container.get('conf').get('debug')) {
+						Container.get('logs').log('plugin.warcraft3sounds.warnings.get');
+					}
 
 					if (!data) {
 						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
@@ -233,6 +253,10 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 				.on('plugin.warcraft3sounds.action.play', function (data) {
 
+					if (Container.get('conf').get('debug')) {
+						Container.get('logs').log('plugin.warcraft3sounds.action.play');
+					}
+
 					if (!data) {
 						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
 					}
@@ -249,6 +273,10 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 				})
 				.on('plugin.warcraft3sounds.music.play', function (data) {
 
+					if (Container.get('conf').get('debug')) {
+						Container.get('logs').log('plugin.warcraft3sounds.music.play');
+					}
+
 					if (!data) {
 						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
 					}
@@ -264,6 +292,10 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 				})
 				.on('plugin.warcraft3sounds.warning.play', function (data) {
+
+					if (Container.get('conf').get('debug')) {
+						Container.get('logs').log('plugin.warcraft3sounds.warning.play');
+					}
 
 					if (!data) {
 						Container.get('websockets').emit('plugin.warcraft3sounds.error', 'Missing data.');
@@ -299,7 +331,7 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 			this.database.close();
 		}
 		catch(e) {
-			console.log((e.message) ? e.message : e);
+			Container.get('logs').err('-- [plugins/Warcraft3Sounds] - unload : ' + ((e.message) ? e.message : e));
 		}
 
 	}
@@ -317,7 +349,7 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 		}
 		catch(e) {
-			console.log((e.message) ? e.message : e);
+			Container.get('logs').err('-- [plugins/Warcraft3Sounds] - install : ' + ((e.message) ? e.message : e));
 		}
 
 	}
@@ -339,7 +371,7 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 
 		}
 		catch(e) {
-			console.log((e.message) ? e.message : e);
+			Container.get('logs').err('-- [plugins/Warcraft3Sounds] - uninstall : ' + ((e.message) ? e.message : e));
 		}
 		
 	}
