@@ -293,34 +293,53 @@ module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
 	unload (Container) {
 
 		super.unload();
-		Container.get('websockets').getSockets().forEach(_freeSocket);
-		
-		this.database.close();
+
+		try {
+			Container.get('websockets').getSockets().forEach(_freeSocket);
+			this.database.close();
+		}
+		catch(e) {
+			console.log((e.message) ? e.message : e);
+		}
 
 	}
 
 	install (Container) {
 
-		if (fs.mkdirp(path.join(__dirname, 'sounds'))) {
-			Container.get('logs').log("-- [plugins/Warcraft3Sounds] : Dossier des sons créé.");
+		try {
+
+			if (fs.mkdirp(path.join(__dirname, 'sounds'))) {
+				Container.get('logs').log("-- [plugins/Warcraft3Sounds] : Dossier des sons créé.");
+			}
+			else {
+				Container.get('logs').err("-- [plugins/Warcraft3Sounds] : Impossible de créer le dossier des sons.");
+			}
+
 		}
-		else {
-			Container.get('logs').err("-- [plugins/Warcraft3Sounds] : Impossible de créer le dossier des sons.");
+		catch(e) {
+			console.log((e.message) ? e.message : e);
 		}
 
 	}
 
 	uninstall () {
 
-		if (fs.dirExists(path.join(__dirname, 'sounds'))) {
+		try {
+			
+			if (fs.dirExists(path.join(__dirname, 'sounds'))) {
 
-			if (fs.rmdirp(path.join(__dirname, 'sounds'))) {
-				Container.get('logs').log("-- [plugins/Warcraft3Sounds] : Dossier des sons supprimé.");
-			}
-			else {
-				Container.get('logs').err("-- [plugins/Warcraft3Sounds] : Impossible de supprimer le dossier des sons.");
+				if (fs.rmdirp(path.join(__dirname, 'sounds'))) {
+					Container.get('logs').log("-- [plugins/Warcraft3Sounds] : Dossier des sons supprimé.");
+				}
+				else {
+					Container.get('logs').err("-- [plugins/Warcraft3Sounds] : Impossible de supprimer le dossier des sons.");
+				}
+
 			}
 
+		}
+		catch(e) {
+			console.log((e.message) ? e.message : e);
 		}
 		
 	}
