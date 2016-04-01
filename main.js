@@ -26,7 +26,7 @@
 
 // module
 
-module.exports = class CronPlugin extends SimplePluginsManager.SimplePlugin {
+module.exports = class MIAPluginWarcraft3Sound extends SimplePluginsManager.SimplePlugin {
 
 	constructor () {
  
