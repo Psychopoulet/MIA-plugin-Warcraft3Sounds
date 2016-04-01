@@ -109,15 +109,51 @@ module.exports = class Warcraft3SoundsDatabase {
 
 			try {
 
-				if (!that.db) {
-					that.db = null;
-					fs.unlink(that.dbFile, resolve);
+				if (null == that.db) {
+
+					if (!fs.fileExists(that.dbFile)) {
+						resolve();
+					}
+					else {
+
+						fs.unlink(that.dbFile, function(err) {
+
+							if (err) {
+								reject(err);
+							}
+							else {
+								resolve();
+							}
+
+						});
+						
+					}
+
 				}
 				else {
 
 					that.db.close(function() {
+
 						that.db = null;
-						fs.unlink(that.dbFile, resolve);
+
+						if (!fs.fileExists(that.dbFile)) {
+							resolve();
+						}
+						else {
+
+							fs.unlink(that.dbFile, function(err) {
+
+								if (err) {
+									reject(err);
+								}
+								else {
+									resolve();
+								}
+
+							});
+							
+						}
+
 					});
 					
 				}

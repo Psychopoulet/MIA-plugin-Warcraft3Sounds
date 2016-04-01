@@ -101,12 +101,12 @@ app.controller('ControllerWarcraftSounds', ['$scope', '$actions', '$popup', func
 
 		// actions
 
-			$scope.createSound = function (child, sound) {
+			$scope.createSound = function (race, child, sound) {
 
 				for (var i = 0; i < tabActionsTypes.length; ++i) {
 
 					if (tabActionsTypes[i].command == 'media.sound.play') {
-						$actions.add(sound.name, child, tabActionsTypes[i], sound);
+						$actions.add(race.name + ' - ' + sound.name, child, tabActionsTypes[i], sound);
 						break;
 					}
 

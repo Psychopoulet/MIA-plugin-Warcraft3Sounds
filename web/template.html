@@ -68,7 +68,7 @@
 
 								<button type="button" class="btn btn-primary"
 										data-ng-disabled="!selectedmusic || !selectedchild" data-ng-class="{'disabled' : !selectedmusic || !selectedchild }"
-										data-ng-click="createSound(selectedchild, selectedmusic);"
+										data-ng-click="createSound(selectedrace, selectedchild, selectedmusic);"
 										data-toggle="tooltip" data-placement="auto" title="Créer une action avec cette musique sur cet enfant">
 										<span class="glyphicon glyphicon-fire"></span>
 								</button>
@@ -115,7 +115,7 @@
 
 								<button type="button" class="btn btn-primary"
 										data-ng-disabled="!selectedwarning || !selectedchild" data-ng-class="{'disabled' : !selectedwarning || !selectedchild }"
-										data-ng-click="createSound(selectedchild, selectedwarning);"
+										data-ng-click="createSound(selectedrace, selectedchild, selectedwarning);"
 										data-toggle="tooltip" data-placement="auto" title="Créer une action avec cette alerte sur cet enfant">
 										<span class="glyphicon glyphicon-fire"></span>
 								</button>
@@ -186,7 +186,7 @@
 
 								<button type="button" class="btn btn-primary"
 										data-ng-disabled="!selectedaction || !selectedchild" data-ng-class="{'disabled' : !selectedaction || !selectedchild }"
-										data-ng-click="createSound(selectedchild, selectedaction);"
+										data-ng-click="createSound(selectedrace, selectedchild, selectedaction);"
 										data-toggle="tooltip" data-placement="auto" title="Créer une action avec cette action sur cet enfant">
 										<span class="glyphicon glyphicon-fire"></span>
 								</button>
