@@ -39,13 +39,13 @@ module.exports = class MIAPluginWarcraft3Sound extends SimplePluginsManager.Simp
 
 	load (Container) {
 		
-		var that = this;
+		let that = this;
 
 		this.database.init().then(function() {
 
 			Container.get('express').get(that.basicurl + ':file', function(req, res) {
 
-				var file = path.join(__dirname, 'sounds', req.params.file);
+				let file = path.join(__dirname, 'sounds', req.params.file);
 
 				if (Container.get('conf').get('debug')) {
 					Container.get('logs').log('warcraft3sounds / get file');

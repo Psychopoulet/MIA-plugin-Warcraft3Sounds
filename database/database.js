@@ -17,11 +17,11 @@ module.exports = class Warcraft3SoundsDatabase {
 
 	init () {
 
-		var that = this;
+		let that = this;
 
 		return new Promise(function(resolve, reject) {
 
-			var createFile = path.join(__dirname, 'create.sql');
+			let createFile = path.join(__dirname, 'create.sql');
 
 			try {
 
@@ -43,7 +43,7 @@ module.exports = class Warcraft3SoundsDatabase {
 								}
 								else {
 
-									var queries = [];
+									let queries = [];
 
 									sql.split(';').forEach(function(query) {
 
@@ -103,7 +103,7 @@ module.exports = class Warcraft3SoundsDatabase {
 
 	close() {
 
-		var that = this;
+		let that = this;
 
 		return new Promise(function(resolve, reject) {
 
@@ -169,7 +169,7 @@ module.exports = class Warcraft3SoundsDatabase {
 
 	getRaces() {
 
-		var that = this;
+		let that = this;
 
 		return new Promise(function(resolve, reject) {
 
@@ -200,7 +200,7 @@ module.exports = class Warcraft3SoundsDatabase {
 
 	getCharacters(race) {
 
-		var that = this;
+		let that = this;
 
 		return new Promise(function(resolve, reject) {
 
@@ -234,7 +234,7 @@ module.exports = class Warcraft3SoundsDatabase {
 
 	getActions(character) {
 
-		var that = this;
+		let that = this;
 
 		return new Promise(function(resolve, reject) {
 
@@ -287,7 +287,7 @@ module.exports = class Warcraft3SoundsDatabase {
 
 	getMusics(race) {
 
-		var that = this;
+		let that = this;
 
 		return new Promise(function(resolve, reject) {
 
@@ -321,18 +321,16 @@ module.exports = class Warcraft3SoundsDatabase {
 
 	getWarnings(race) {
 
-		var that = this;
+		let that = this;
 
 		return new Promise(function(resolve, reject) {
 
 			try {
 
-				that.db.all("SELECT warnings.id, warnings.code, warnings.name, warnings.file," +
-							" warnings_types.id AS type_id, warnings_types.code AS type_code, warnings_types.name AS type_name" +
+				that.db.all("SELECT warnings.id, warnings.code, warnings.name, warnings.file" +
 							" FROM warnings" +
-								" INNER JOIN warnings_types ON warnings_types.id = warnings.k_warning_type" +
 							" WHERE warnings.k_race = :id_race" +
-							" ORDER BY warnings_types.name, warnings.name;", { ':id_race': race.id }, function(err, rows) {
+							" ORDER BY warnings.name;", { ':id_race': race.id }, function(err, rows) {
 
 					if (err) {
 						reject((err.message) ? err.message : err);
@@ -341,23 +339,7 @@ module.exports = class Warcraft3SoundsDatabase {
 						resolve([]);
 					}
 					else {
-
-						rows.forEach(function(action, i) {
-
-							rows[i].type = {
-								id: rows[i].type_id,
-								code: rows[i].type_code,
-								name: rows[i].type_name
-							};
-
-							delete rows[i].type_id;
-							delete rows[i].type_code;
-							delete rows[i].type_name;
-
-						});
-
 						resolve(rows);
-
 					}
 
 				});
