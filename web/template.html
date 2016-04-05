@@ -89,7 +89,7 @@
 
 							<select class="form-control"
 									data-ng-disabled="!warnings.length" data-ng-class="{'disabled' : !warnings.length }"
-									data-ng-options="warning.name group by warning.type.name for warning in warnings"
+									data-ng-options="warning.name for warning in warnings"
 									data-ng-model="selectedwarning"
 									data-ng-show="1 < warnings.length">
 								<option value="">--</option>
