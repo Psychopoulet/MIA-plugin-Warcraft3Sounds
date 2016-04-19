@@ -360,12 +360,16 @@ module.exports = class MIAPluginWarcraft3Sound extends SimplePluginsManager.Simp
 			
 			if (fs.dirExists(path.join(__dirname, 'sounds'))) {
 
-				if (fs.rmdirp(path.join(__dirname, 'sounds'))) {
-					Container.get('logs').log("-- [plugins/Warcraft3Sounds] : Dossier des sons supprimé.");
-				}
-				else {
-					Container.get('logs').err("-- [plugins/Warcraft3Sounds] : Impossible de supprimer le dossier des sons.");
-				}
+				fs.armdirp (path.join(__dirname, 'sounds'), function(err) {
+
+					if (err) {
+						Container.get('logs').err("-- [plugins/Warcraft3Sounds] : Impossible de supprimer le dossier des sons.");
+					}
+					else {
+						Container.get('logs').log("-- [plugins/Warcraft3Sounds] : Dossier des sons supprimé.");
+					}
+
+				});
 
 			}
 
