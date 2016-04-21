@@ -1,7 +1,7 @@
 {
   "name": "Sons de Warcraft III",
   "description": "Récupérez et utilisez les sons de Warcraft III dans MIA",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "main.js",
   "author": "Sébastien VIDAL",
   "license": "ISC",
