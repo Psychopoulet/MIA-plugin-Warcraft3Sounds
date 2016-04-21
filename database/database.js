@@ -25,7 +25,7 @@ module.exports = class Warcraft3SoundsDatabase {
 
 			try {
 
-				if (!fs.fileExists(createFile)) {
+				if (!fs.isFileSync(createFile)) {
 					that.db = new sqlite3.Database(that.dbFile);
 					that.db.serialize(resolve);
 				}
@@ -36,55 +36,48 @@ module.exports = class Warcraft3SoundsDatabase {
 						that.db = new sqlite3.Database(that.dbFile);
 						that.db.serialize(function() {
 
-							fs.readFile(createFile, 'utf8', function (err, sql) {
+							fs.readFileProm(createFile, 'utf8').then(function (sql) {
 
-								if (err) {
-									reject((err.message) ? err.message : err);
-								}
-								else {
+								let queries = [];
 
-									let queries = [];
+								sql.split(';').forEach(function(query) {
 
-									sql.split(';').forEach(function(query) {
+									query = query.trim()
+												.replace(/--(.*)\s/g, "")
+												.replace(/\s/g, " ")
+												.replace(/  /g, " ");
 
-										query = query.trim()
-													.replace(/--(.*)\s/g, "")
-													.replace(/\s/g, " ")
-													.replace(/  /g, " ");
+									if ('' != query) {
+										queries.push(query + ';');
+									}
 
-										if ('' != query) {
-											queries.push(query + ';');
-										}
+								});
 
-									});
+								function executeQueries(i) {
 
-									function executeQueries(i) {
+									if (i >= queries.length) {
+										fs.unlinkProm(createFile).then(resolve).catch(reject);
+									}
+									else {
 
-										if (i >= queries.length) {
-											fs.unlink(createFile, resolve);
-										}
-										else {
+										that.db.run(queries[i], [], function(err) {
 
-											that.db.run(queries[i], [], function(err) {
+											if (err) {
+												reject((err.message) ? err.message : err);
+											}
+											else {
+												executeQueries(i + 1);
+											}
 
-												if (err) {
-													reject((err.message) ? err.message : err);
-												}
-												else {
-													executeQueries(i + 1);
-												}
-
-											});
-
-										}
+										});
 
 									}
 
-									executeQueries(0);
-
 								}
-								
-							});
+
+								executeQueries(0);
+
+							}).catch(reject);
 
 						});
 
@@ -110,50 +103,13 @@ module.exports = class Warcraft3SoundsDatabase {
 			try {
 
 				if (null == that.db) {
-
-					if (!fs.fileExists(that.dbFile)) {
-						resolve();
-					}
-					else {
-
-						fs.unlink(that.dbFile, function(err) {
-
-							if (err) {
-								reject(err);
-							}
-							else {
-								resolve();
-							}
-
-						});
-						
-					}
-
+					fs.unlinkProm(that.dbFile).then(resolve).catch(reject);
 				}
 				else {
 
 					that.db.close(function() {
-
 						that.db = null;
-
-						if (!fs.fileExists(that.dbFile)) {
-							resolve();
-						}
-						else {
-
-							fs.unlink(that.dbFile, function(err) {
-
-								if (err) {
-									reject(err);
-								}
-								else {
-									resolve();
-								}
-
-							});
-							
-						}
-
+						fs.unlinkProm(that.dbFile).then(resolve).catch(reject);
 					});
 					
 				}

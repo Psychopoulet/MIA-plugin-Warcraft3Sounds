@@ -4,10 +4,6 @@ app.controller('ControllerWarcraftSounds', ['$scope', '$actions', '$popup', func
 
 	// attributes
 
-		// private
-
-			var tabActionsTypes = [];
-
 		// public
 
 			$scope.races = $scope.characters = $scope.actions = $scope.musics = $scope.warnings = $scope.childs = [];
@@ -102,31 +98,16 @@ app.controller('ControllerWarcraftSounds', ['$scope', '$actions', '$popup', func
 		// actions
 
 			$scope.createSound = function (race, child, sound) {
-
-				for (var i = 0; i < tabActionsTypes.length; ++i) {
-
-					if (tabActionsTypes[i].command == 'media.sound.play') {
-						$actions.add(race.name + ' - ' + sound.name, child, tabActionsTypes[i], sound);
-						break;
-					}
-
-				}
-
+				$actions.add(race.name + ' - ' + sound.name, child, $actions.getActionTypeByCommand('media.sound.play'), sound);
 			};
 
 	// constructor
 
 		// events
 
-			// actionstypes
-
-			socket.on('actionstypes', function(actionstypes) {
-				$scope.$apply(function() { tabActionsTypes = actionstypes; });
-			})
-
 			// childs
 
-			.on('childs', function (childs) {
+			socket.on('childs', function (childs) {
 				
 				$scope.$apply(function() {
 

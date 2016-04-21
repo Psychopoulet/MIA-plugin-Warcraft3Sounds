@@ -53,7 +53,7 @@ module.exports = class MIAPluginWarcraft3Sound extends SimplePluginsManager.Simp
 					Container.get('logs').log(file);
 				}
 
-				if (fs.fileExists(file)) {
+				if (fs.isFileSync(file)) {
 					res.sendFile(file);
 				}
 				else {
@@ -340,12 +340,11 @@ module.exports = class MIAPluginWarcraft3Sound extends SimplePluginsManager.Simp
 
 		try {
 
-			if (fs.mkdirp(path.join(__dirname, 'sounds'))) {
+			fs.mkdirpProm(path.join(__dirname, 'sounds')).then(function() {
 				Container.get('logs').log("-- [plugins/Warcraft3Sounds] : Dossier des sons créé.");
-			}
-			else {
-				Container.get('logs').err("-- [plugins/Warcraft3Sounds] : Impossible de créer le dossier des sons.");
-			}
+			}).catch(function(err) {
+				Container.get('logs').err("-- [plugins/Warcraft3Sounds] : Impossible de créer le dossier des sons (" + err + ").");
+			});
 
 		}
 		catch(e) {
@@ -358,16 +357,11 @@ module.exports = class MIAPluginWarcraft3Sound extends SimplePluginsManager.Simp
 
 		try {
 			
-			if (fs.dirExists(path.join(__dirname, 'sounds'))) {
-
-				if (fs.rmdirp(path.join(__dirname, 'sounds'))) {
-					Container.get('logs').log("-- [plugins/Warcraft3Sounds] : Dossier des sons supprimé.");
-				}
-				else {
-					Container.get('logs').err("-- [plugins/Warcraft3Sounds] : Impossible de supprimer le dossier des sons.");
-				}
-
-			}
+			fs.rmdirpProm(path.join(__dirname, 'sounds'), function(err) {
+				Container.get('logs').log("-- [plugins/Warcraft3Sounds] : Dossier des sons supprimé.");
+			}).catch(function(err) {
+				Container.get('logs').err("-- [plugins/Warcraft3Sounds] : Impossible de supprimer le dossier des sons (" + err + ").");
+			});
 
 		}
 		catch(e) {
