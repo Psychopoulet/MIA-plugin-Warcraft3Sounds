@@ -1,14 +1,41 @@
 {
-  "name": "Sons de Warcraft III",
+  "name": "MIAPluginWarcraft3Sound",
+  "version": "0.0.8",
   "description": "Récupérez et utilisez les sons de Warcraft III dans MIA",
-  "version": "0.0.7",
-  "main": "main.js",
-  "author": "Sébastien VIDAL",
+  "main": "lib/main.js",
+  "scripts": {
+    "start": "node lib/main.js start",
+    "test": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Psychopoulet/MIA-plugin-Warcraft3Sounds.git"
+  },
+  "authors": [
+    "Sébastien VIDAL"
+  ],
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Psychopoulet/MIA-plugin-Warcraft3Sounds/issues"
+  },
+  "dependencies": {
+    "sqlite3": "^3.1.4"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^2.0.0",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-mocha": "^2.0.0",
+    "gulp-plumber": "^1.0.0"
+  },
+  "homepage": "https://github.com/Psychopoulet/MIA-plugin-Warcraft3Sounds#readme",
   "github" : "https://github.com/Psychopoulet/MIA-plugin-Warcraft3Sounds",
-  "widget" : "web/template.html",
-  "templates" : [ ],
+  "templates" : [
+    "web/template.html"
+  ],
   "javascripts" : [
     "web/ControllerWidget.js"
-  ]
+  ],
+  "private": true,
+  "engines" : { "node" : ">=4.0.0" }
 }
