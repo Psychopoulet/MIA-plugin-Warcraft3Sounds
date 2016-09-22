@@ -58,15 +58,15 @@
 								</button>
 
 								<button type="button" class="btn btn-primary"
-										data-ng-disabled="!selectedmusic || !selectedchild" data-ng-class="{'disabled' : !selectedmusic || !selectedchild }"
-										data-ng-click="playMusicOnChild(selectedchild, selectedmusic);"
+										data-ng-disabled="!selectedmusic || !selecteddevice" data-ng-class="{'disabled' : !selectedmusic || !selecteddevice }"
+										data-ng-click="playMusicOnChild(selecteddevice, selectedmusic);"
 										data-toggle="tooltip" data-placement="auto" title="Jouer cette musique sur cet enfant">
 									<span class="fa fa-music"></span>
 								</button>
 
 								<button type="button" class="btn btn-primary"
-										data-ng-disabled="!selectedmusic || !selectedchild" data-ng-class="{'disabled' : !selectedmusic || !selectedchild }"
-										data-ng-click="createSound(selectedrace, selectedchild, selectedmusic);"
+										data-ng-disabled="!selectedmusic || !selecteddevice" data-ng-class="{'disabled' : !selectedmusic || !selecteddevice }"
+										data-ng-click="createSound(selecteddevice, selectedmusic);"
 										data-toggle="tooltip" data-placement="auto" title="Créer une action avec cette musique sur cet enfant">
 										<span class="fa fa-fire"></span>
 								</button>
@@ -105,15 +105,15 @@
 								</button>
 
 								<button type="button" class="btn btn-primary"
-										data-ng-disabled="!selectedwarning || !selectedchild" data-ng-class="{'disabled' : !selectedwarning || !selectedchild }"
-										data-ng-click="playWarningOnChild(selectedchild, selectedwarning);"
+										data-ng-disabled="!selectedwarning || !selecteddevice" data-ng-class="{'disabled' : !selectedwarning || !selecteddevice }"
+										data-ng-click="playWarningOnChild(selecteddevice, selectedwarning);"
 										data-toggle="tooltip" data-placement="auto" title="Jouer cette alerte sur cet enfant">
 									<span class="fa fa-music"></span>
 								</button>
 
 								<button type="button" class="btn btn-primary"
-										data-ng-disabled="!selectedwarning || !selectedchild" data-ng-class="{'disabled' : !selectedwarning || !selectedchild }"
-										data-ng-click="createSound(selectedrace, selectedchild, selectedwarning);"
+										data-ng-disabled="!selectedwarning || !selecteddevice" data-ng-class="{'disabled' : !selectedwarning || !selecteddevice }"
+										data-ng-click="createSound(selecteddevice, selectedwarning);"
 										data-toggle="tooltip" data-placement="auto" title="Créer une action avec cette alerte sur cet enfant">
 										<span class="fa fa-fire"></span>
 								</button>
@@ -141,7 +141,7 @@
 								data-ng-disabled="!characters.length" data-ng-class="{'disabled' : !characters.length }"
 								data-ng-options="character.name for character in characters"
 								data-ng-model="selectedcharacter"
-								data-ng-change="selectCharacter(selectedrace, selectedcharacter);"
+								data-ng-change="selectCharacter(selectedcharacter);"
 								data-ng-show="1 < characters.length">
 							<option value="">--</option>
 						</select>
@@ -176,15 +176,15 @@
 								</button>
 
 								<button type="button" class="btn btn-primary"
-										data-ng-disabled="!selectedaction || !selectedchild" data-ng-class="{'disabled' : !selectedaction || !selectedchild }"
-										data-ng-click="playActionOnChild(selectedchild, selectedaction);"
+										data-ng-disabled="!selectedaction || !selecteddevice" data-ng-class="{'disabled' : !selectedaction || !selecteddevice }"
+										data-ng-click="playActionOnChild(selecteddevice, selectedaction);"
 										data-toggle="tooltip" data-placement="auto" title="Jouer cette action sur cet enfant">
 									<span class="fa fa-music"></span>
 								</button>
 
 								<button type="button" class="btn btn-primary"
-										data-ng-disabled="!selectedaction || !selectedchild" data-ng-class="{'disabled' : !selectedaction || !selectedchild }"
-										data-ng-click="createSound(selectedrace, selectedchild, selectedaction);"
+										data-ng-disabled="!selectedaction || !selecteddevice" data-ng-class="{'disabled' : !selectedaction || !selecteddevice }"
+										data-ng-click="createSound(selecteddevice, selectedaction);"
 										data-toggle="tooltip" data-placement="auto" title="Créer une action avec cette action sur cet enfant">
 										<span class="fa fa-fire"></span>
 								</button>
@@ -201,19 +201,19 @@
 					
 					<div class="form-group col-xs-12">
 
-						<div class="form-group" data-ng-show="childs.length">
+						<div class="form-group" data-ng-show="devices.length">
 
 							<label>Enfants</label>
 
-							<div class="form-group" data-ng-show="1 >= childs.length">
-								<div class="form-control" data-ng-show="0 == childs.length">--</div>
-								<div class="form-control" data-ng-show="1 == childs.length">{{selectedchild.name}}</div>
+							<div class="form-group" data-ng-show="1 >= devices.length">
+								<div class="form-control" data-ng-show="0 == devices.length">--</div>
+								<div class="form-control" data-ng-show="1 == devices.length">{{selecteddevice.name}}</div>
 							</div>
 
 							<select class="form-control"
-									data-ng-options="child.name for child in childs"
-									data-ng-model="selectedchild"
-									data-ng-show="1 < childs.length">
+									data-ng-options="device.name for device in devices"
+									data-ng-model="selecteddevice"
+									data-ng-show="1 < devices.length">
 								<option value="">--</option>
 							</select>
 
