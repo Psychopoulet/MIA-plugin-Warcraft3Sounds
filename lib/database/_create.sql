@@ -27,42 +27,6 @@ INSERT INTO musics (k_race, code, name, file) VALUES
 (4, 'defeat', 'Défaite', 'undeads_musics_defeat.wav'),
 (4, 'victory', 'Victoire', 'undeads_musics_victory.wav');
 
--- warnings
-
-INSERT INTO warnings (k_race, code, name, file) VALUES
-
-(4, 'nofood', 'nofood', 'NecromancerNoFood1.wav'),
-(4, 'noenergy', 'noenergy', 'NecromancerNoEnergy1.wav'),
-(4, 'nogold', 'nogold', 'NecromancerNoGold1.wav'),
-(4, 'nolumber', 'nolumber', 'NecromancerNoLumber1.wav'),
-(4, 'inventoryfull', 'inventoryfull', 'NecromancerInventoryFull1.wav'),
-(4, 'townattack', 'townattack', 'NecromancerTownAttack1.wav'),
-(4, 'unitattack', 'unitattack', 'NecromancerUnitAttack1.wav'),
-(4, 'herodies', 'herodies', 'NecromancerHeroDies1.wav'),
-(4, 'allytownattack', 'allytownattack', 'NecromancerAllyTownAttack1.wav'),
-(4, 'allyattack', 'allyattack', 'NecromancerAllyUnderAttack1.wav'),
-(4, 'allyherodies', 'allyherodies', 'NecromancerAllyHeroDies1.wav'),
-(4, 'upgradecomplete', 'upgradecomplete', 'NecromancerUpgradeComplete1.wav'),
-(4, 'researchcomplete', 'researchcomplete', 'NecromancerResearchComplete1.wav'),
-
-(5, 'cannotbuildthere', 'cannotbuildthere', 'neutrals_warnings_cannotbuildthere.wav'),
-(5, 'goldminelow', 'goldminelow', 'neutrals_warnings_goldminelow.wav'),
-(5, 'goldminecollapsed', 'goldminecollapsed', 'neutrals_warnings_goldminecollapsed.wav'),
-(5, 'nofood', 'nofood', 'neutrals_warnings_nofood.wav'),
-(5, 'noenergy', 'noenergy', 'neutrals_warnings_noenergy.wav'),
-(5, 'nogold', 'nogold', 'neutrals_warnings_nogold.wav'),
-(5, 'nolumber', 'nolumber', 'neutrals_warnings_nolumber.wav'),
-(5, 'inventoryfull', 'inventoryfull', 'neutrals_warnings_inventoryfull.wav'),
-(5, 'townattack', 'townattack', 'neutrals_warnings_townattack.wav'),
-(5, 'unitattack', 'unitattack', 'neutrals_warnings_unitattack.wav'),
-(5, 'herodies', 'herodies', 'neutrals_warnings_herodies.wav'),
-(5, 'allytownattack', 'allytownattack', 'neutrals_warnings_allytownattack.wav'),
-(5, 'allyattack', 'allyattack', 'neutrals_warnings_allyattack.wav'),
-(5, 'allyherodies', 'allyherodies', 'neutrals_warnings_allyherodies.wav'),
-(5, 'buildingcomplete', 'buildingcomplete', 'neutrals_warnings_buildingcomplete.wav'),
-(5, 'upgradecomplete', 'upgradecomplete', 'neutrals_warnings_upgradecomplete.wav'),
-(5, 'researchcomplete', 'researchcomplete', 'neutrals_warnings_researchcomplete.wav');
-
 -- actions
 
 INSERT INTO actions (k_character, k_action_type, code, name, file) VALUES
