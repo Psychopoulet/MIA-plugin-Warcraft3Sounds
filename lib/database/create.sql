@@ -154,6 +154,9 @@ CREATE TABLE characters (
 );
 
 INSERT INTO characters (id, k_race, code, name, tft) VALUES
+
+-- humans
+
 (1, 1, 'paladin', 'Paladin', 0),
 (2, 1, 'mountainking', 'Roi de la montagne', 0),
 (3, 1, 'archmage', 'Archimage', 0),
@@ -176,6 +179,8 @@ INSERT INTO characters (id, k_race, code, name, tft) VALUES
 (64, 1, 'villager', 'Villageois', 0),
 (65, 1, 'captain', 'Capitaine', 0),
 
+-- nightelfs
+
 (28, 2, 'demonhunter', 'Chasseur de démons', 0),
 (29, 2, 'keeperofthegrove', 'keeperofthegrove', 0),
 (30, 2, 'moonpriestess', 'Prêtresse de la lune', 0),
@@ -192,6 +197,8 @@ INSERT INTO characters (id, k_race, code, name, tft) VALUES
 (76, 2, 'shandris', 'Shandris', 0),
 (77, 2, 'sylvanas', 'Sylvanas', 0),
 (78, 2, 'tyrande', 'Tyrande', 0),
+
+-- orcs
 
 (15, 3, 'blademaster', 'blademaster', 0),
 (16, 3, 'farseer', 'farseer', 0),
@@ -211,6 +218,8 @@ INSERT INTO characters (id, k_race, code, name, tft) VALUES
 (81, 3, 'thrall', 'Thrall', 0),
 (82, 3, 'warlord', 'Warlord', 0),
 
+-- undeads
+
 (38, 4, 'deathknight', 'Chevalier de la mort', 0),
 (39, 4, 'lich', 'Liche', 0),
 (40, 4, 'dreadlord', 'dreadlord', 0),
@@ -225,6 +234,8 @@ INSERT INTO characters (id, k_race, code, name, tft) VALUES
 (57, 4, 'arthas', 'Arthas', 0),
 (83, 4, 'kelthuzad', 'Kelthuzad', 0),
 (85, 4, 'tichondrius', 'Tichondrius', 0),
+
+-- neutrals
 
 (49, 5, 'alchemist', 'alchemist', 1),
 (50, 5, 'ladyvash', 'ladyvash', 1),
@@ -258,6 +269,8 @@ CREATE TABLE actions (
 );
 
 INSERT INTO actions (k_character, k_action_type, code, name, file) VALUES
+
+-- humans
 
 (2, 1, 'ready1', 'Prêt !', 'HeroMountainKingReady1.wav'),
 (2, 2, 'warcry1', 'Pour Khaz Modan !', 'HeroMountainKingWarcry1.wav'),
@@ -383,3 +396,11 @@ INSERT INTO actions (k_character, k_action_type, code, name, file) VALUES
 (59, 6, 'fun3', 'Il y a un grand trouble dans les courants magiques', 'JainaPissed3.wav'),
 (59, 6, 'fun4', 'Je prie que mon père soit sain et sauf', 'JainaPissed4.wav'),
 (59, 6, 'fun5', 'Les évènements commencent à être un peu bizarres', 'JainaPissed5.wav');
+
+-- nightelfs
+
+-- orcs
+
+-- undeads
+
+-- neutrals
