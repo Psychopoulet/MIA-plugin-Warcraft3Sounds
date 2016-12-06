@@ -1,32 +1,4 @@
 
--- musics
-
-INSERT INTO musics (k_race, code, name, file) VALUES
-
-(1, 'theme1', 'Thème 1', 'humans_musics_theme1.wav'),
-(1, 'theme2', 'Thème 2', 'humans_musics_theme2.wav'),
-(1, 'theme3', 'Thème 3', 'humans_musics_theme3.wav'),
-(1, 'defeat', 'Défaite', 'humans_musics_defeat.wav'),
-(1, 'victory', 'Victoire', 'humans_musics_victory.wav'),
-
-(2, 'theme1', 'Thème 1', 'nightelfs_musics_theme1.wav'),
-(2, 'theme2', 'Thème 2', 'nightelfs_musics_theme2.wav'),
-(2, 'theme3', 'Thème 3', 'nightelfs_musics_theme3.wav'),
-(2, 'defeat', 'Défaite', 'nightelfs_musics_defeat.wav'),
-(2, 'victory', 'Victoire', 'nightelfs_musics_victory.wav'),
-
-(3, 'theme1', 'Thème 1', 'orcs_musics_theme1.wav'),
-(3, 'theme2', 'Thème 2', 'orcs_musics_theme2.wav'),
-(3, 'theme3', 'Thème 3', 'orcs_musics_theme3.wav'),
-(3, 'defeat', 'Défaite', 'orcs_musics_defeat.wav'),
-(3, 'victory', 'Victoire', 'orcs_musics_victory.wav'),
-
-(4, 'theme1', 'Thème 1', 'undeads_musics_theme1.wav'),
-(4, 'theme2', 'Thème 2', 'undeads_musics_theme2.wav'),
-(4, 'theme3', 'Thème 3', 'undeads_musics_theme3.wav'),
-(4, 'defeat', 'Défaite', 'undeads_musics_defeat.wav'),
-(4, 'victory', 'Victoire', 'undeads_musics_victory.wav');
-
 -- actions
 
 INSERT INTO actions (k_character, k_action_type, code, name, file) VALUES
