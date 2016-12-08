@@ -514,6 +514,28 @@ CREATE TABLE actions (
 	(10, 6, 'fun5', 'Un cavalier, qui surgit hors de la nuit... Part, à l''aventure au galop...', 'GryphonRiderPissed5.wav'),
 	(10, 7, 'death1', 'Mort', 'GryphonRiderDeath1.wav'),
 
+	(12, 1, 'ready1', '', 'SorceressReady1.wav'),
+	(12, 2, 'warcry1', '', 'SorceressWarcry1.wav'),
+	(12, 3, 'what1', '', 'SorceressWhat1.wav'),
+	(12, 3, 'what2', '', 'SorceressWhat2.wav'),
+	(12, 3, 'what3', '', 'SorceressWhat3.wav'),
+	(12, 3, 'what4', '', 'SorceressWhat4.wav'),
+	(12, 3, 'what5', '', 'SorceressWhat5.wav'),
+	(12, 4, 'yes1', '', 'SorceressYes1.wav'),
+	(12, 4, 'yes2', '', 'SorceressYes2.wav'),
+	(12, 4, 'yes3', '', 'SorceressYes3.wav'),
+	(12, 4, 'yes4', '', 'SorceressYes4.wav'),
+	(12, 5, 'attack1', '', 'SorceressYesAttack1.wav'),
+	(12, 5, 'attack2', '', 'SorceressYesAttack2.wav'),
+	(12, 5, 'attack3', '', 'SorceressYesAttack3.wav'),
+	(12, 6, 'fun1', '', 'SorceressPissed1.wav'),
+	(12, 6, 'fun2', '', 'SorceressPissed2.wav'),
+	(12, 6, 'fun3', '', 'SorceressPissed3.wav'),
+	(12, 6, 'fun4', '', 'SorceressPissed4.wav'),
+	(12, 6, 'fun5', '', 'SorceressPissed5.wav'),
+	(12, 6, 'fun6', '', 'SorceressPissed6.wav'),
+	(12, 7, 'death1', 'Mort', 'SorceressDeath.wav'),
+
 	(59, 2, 'warcry1', 'Pour Dalaran !', 'JainaWarcry1.wav'),
 	(59, 3, 'what1', 'Je peux aider ?', 'JainaWhat1.wav'),
 	(59, 3, 'what2', 'C''est étrange', 'JainaWhat2.wav'),
@@ -542,7 +564,6 @@ CREATE TABLE actions (
 	(65, 6, 'fun1', 'J''aurai dû écouter mon père, et devenir paysan...', 'CaptainPissed1.wav'),
 	(65, 6, 'fun2', 'Danger permanent, solde de misère...', 'CaptainPissed2.wav'),
 	(65, 6, 'fun3', 'Pose tes galons, qu''on s''explique entre hommes !', 'CaptainPissed3.wav'),
-
 
 	-- nightelfs
 
@@ -614,9 +635,28 @@ CREATE TABLE actions (
 	(33, 6, 'fun5', 'Et ne me confondez pas avec Xena.', 'HuntressPissed5.wav'),
 	(33, 6, 'fun6', 'Vous avez reçu... 1... Email.', 'HuntressPissed6.wav'),
 	(33, 6, 'fun7', 'Vole, Bubo !', 'HuntressPissed7.wav'),
-	(33, 6, 'fun8', 'La voie du click est impénétrable.', 'HuntressPissed8.wav');
+	(33, 6, 'fun8', 'La voie du click est impénétrable.', 'HuntressPissed8.wav'),
 
 	-- orcs
+
+	(15, 1, 'ready1', '', 'HeroBlademasterReady1.wav'),
+	(15, 2, 'warcry1', '', 'HeroBlademasterWarcry1.wav'),
+	(15, 3, 'what1', '', 'HeroBlademasterWhat1.wav'),
+	(15, 3, 'what2', '', 'HeroBlademasterWhat2.wav'),
+	(15, 3, 'what3', '', 'HeroBlademasterWhat3.wav'),
+	(15, 3, 'what4', '', 'HeroBlademasterWhat4.wav'),
+	(15, 4, 'yes1', '', 'HeroBlademasterYes1.wav'),
+	(15, 4, 'yes2', '', 'HeroBlademasterYes2.wav'),
+	(15, 4, 'yes3', '', 'HeroBlademasterYes3.wav'),
+	(15, 4, 'yes4', '', 'HeroBlademasterYes4.wav'),
+	(15, 5, 'attack1', '', 'HeroBlademasterYesAttack1.wav'),
+	(15, 5, 'attack2', '', 'HeroBlademasterYesAttack2.wav'),
+	(15, 5, 'attack3', '', 'HeroBlademasterYesAttack3.wav'),
+	(15, 6, 'fun1', '', 'HeroBlademasterPissed1.wav'),
+	(15, 6, 'fun2', '', 'HeroBlademasterPissed2.wav'),
+	(15, 6, 'fun3', '', 'HeroBlademasterPissed3.wav'),
+	(15, 6, 'fun4', '', 'HeroBlademasterPissed4.wav'),
+	(15, 7, 'death1', 'Mort', 'HeroBladeMasterDeath.wav');
 
 	-- undeads
 
